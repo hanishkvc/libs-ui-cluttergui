@@ -42,6 +42,7 @@ imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.Scaling
 imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
 imgBtn.set_position(100, 250)
 imgBtn.set_size(300, 100)
+imgBtn.set_reactive(True)
 stage.add_child(imgBtn)
 
 
@@ -49,9 +50,11 @@ stage.add_child(imgBtn)
 def handle_btn_press(actor, event):
     print("INFO:BtnPress:{},{}".format(actor, event))
     if actor == stage:
+        print("INFO: Bowing down gracefully")
         Clutter.main_quit()
     elif actor == imgBtn:
         print("INFO: Button is pressed")
+    return Clutter.EVENT_STOP
 
 
 def handle_destroy(actor):
