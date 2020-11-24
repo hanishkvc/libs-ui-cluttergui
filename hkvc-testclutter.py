@@ -40,7 +40,8 @@ imgBtn = Clutter.Actor()
 imgBtn.set_content(btnImage)
 imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
 imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
-imgBtn.set_position(100, 300)
+imgBtn.set_position(100, 250)
+imgBtn.set_size(300, 100)
 stage.add_child(imgBtn)
 
 
