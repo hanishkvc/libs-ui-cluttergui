@@ -8,7 +8,9 @@
 import gi
 gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
-
+gi.require_version('GdkPixbuf', '2.0')
+from gi.repository import GdkPixbuf
+from gi.repository import Cogl
 
 # Initialise
 Clutter.init()
@@ -31,6 +33,16 @@ label.set_font_name("Mono 32")
 label.set_position(200, 200)
 stage.add_child(label)
 
+btnPixbuf = GdkPixbuf.Pixbuf.new_from_file("image1.png")
+btnImage = Clutter.Image()
+btnImage.set_data(btnPixbuf.get_pixels(), Cogl.PixelFormat.RGB_888, btnPixbuf.get_width(), btnPixbuf.get_height(), btnPixbuf.get_rowstride())
+imgBtn = Clutter.Actor()
+imgBtn.set_content(btnImage)
+imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
+imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
+imgBtn.set_position(100, 300)
+stage.add_child(imgBtn)
+
 
 # Handle events
 def handle_btn_press(actor, event):
@@ -45,6 +57,7 @@ def handle_destroy(actor):
 
 
 # Get ready to start
+print(stage.get_children())
 stage.connect("destroy", handle_destroy)
 stage.connect("button-press-event", handle_btn_press)
 stage.show()
