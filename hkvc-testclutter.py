@@ -24,7 +24,7 @@ stage.set_title("Hello World 7")
 # Create children
 label = Clutter.Text()
 label.set_text("Hello again 007")
-label.set_color(Clutter.Color.new(0x00, 0x00, 0xff, 0xff))
+label.set_background_color(Clutter.Color.new(0x80, 0x80, 0x80, 0xff))
 label.set_color(Clutter.color_from_string("#0000ff80")[1])
 label.set_color(Clutter.color_from_pixel(0x00ff0080))
 label.set_font_name("Mono 32")
