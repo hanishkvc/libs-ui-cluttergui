@@ -50,6 +50,8 @@ def handle_btn_press(actor, event):
     print("INFO:BtnPress:{},{}".format(actor, event))
     if actor == stage:
         Clutter.main_quit()
+    elif actor == imgBtn:
+        print("INFO: Button is pressed")
 
 
 def handle_destroy(actor):
@@ -57,10 +59,14 @@ def handle_destroy(actor):
     Clutter.main_quit()
 
 
-# Get ready to start
-print(stage.get_children())
+# Connect event handlers
+imgBtn.connect("button-press-event", handle_btn_press)
 stage.connect("destroy", handle_destroy)
 stage.connect("button-press-event", handle_btn_press)
+
+
+# Get ready to start
+print(stage.get_children())
 stage.show()
 Clutter.main()
 
