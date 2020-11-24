@@ -23,27 +23,32 @@ stage.set_size(600,400)
 stage.set_title("Hello World 7")
 
 
-# Create children
-label = Clutter.Text()
-label.set_text("Hello again 007")
-label.set_background_color(Clutter.Color.new(0x80, 0x80, 0x80, 0xff))
-label.set_color(Clutter.color_from_string("#0000ff80")[1])
-label.set_color(Clutter.color_from_pixel(0x00ff0080))
-label.set_font_name("Mono 32")
-label.set_position(200, 200)
-stage.add_child(label)
+# Widget helpers
+def create_label(text, posX, posY, color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
+    label = Clutter.Text()
+    label.set_text(text)
+    label.set_background_color(Clutter.color_from_pixel(backgroundColor))
+    label.set_color(Clutter.color_from_pixel(color))
+    label.set_font_name(font)
+    label.set_position(posX, posY)
+    return label
 
-btnPixbuf = GdkPixbuf.Pixbuf.new_from_file("image1.png")
-btnImage = Clutter.Image()
-btnImage.set_data(btnPixbuf.get_pixels(), Cogl.PixelFormat.RGB_888, btnPixbuf.get_width(), btnPixbuf.get_height(), btnPixbuf.get_rowstride())
-imgBtn = Clutter.Actor()
-imgBtn.set_content(btnImage)
-imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
-imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
-imgBtn.set_position(100, 250)
-imgBtn.set_size(300, 100)
-imgBtn.set_reactive(True)
-stage.add_child(imgBtn)
+
+def create_imagebutton(imageFile, posX, posY, sizeX, sizeY):
+    btnPixbuf = GdkPixbuf.Pixbuf.new_from_file(imageFile)
+    btnImage = Clutter.Image()
+    pixelFormat = Cogl.PixelFormat.RGB_888
+    if btnPixbuf.get_has_alpha():
+        pixelFormat = Cogl.RGBA_8888
+    btnImage.set_data(btnPixbuf.get_pixels(), pixelFormat, btnPixbuf.get_width(), btnPixbuf.get_height(), btnPixbuf.get_rowstride())
+    imgBtn = Clutter.Actor()
+    imgBtn.set_content(btnImage)
+    imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
+    imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
+    imgBtn.set_position(posX, posY)
+    imgBtn.set_size(sizeX, sizeY)
+    imgBtn.set_reactive(True)
+    return imgBtn
 
 
 # Handle events
@@ -62,14 +67,19 @@ def handle_destroy(actor):
     Clutter.main_quit()
 
 
-# Connect event handlers
+# Create children and connect event handlers
+label = create_label("Hello again 007", 200, 200)
+stage.add_child(label)
+
+imgBtn = create_imagebutton("image1.png", 100, 250, 300, 100)
+stage.add_child(imgBtn)
 imgBtn.connect("button-press-event", handle_btn_press)
-stage.connect("destroy", handle_destroy)
-stage.connect("button-press-event", handle_btn_press)
 
 
 # Get ready to start
 print(stage.get_children())
+stage.connect("destroy", handle_destroy)
+stage.connect("button-press-event", handle_btn_press)
 stage.show()
 Clutter.main()
 
