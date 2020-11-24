@@ -2,6 +2,11 @@
 # Test Clutter
 # HanishKVC, v20201124IST1127
 #
+
+
+# Import Clutter for use
+import gi
+gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 
 
@@ -42,7 +47,7 @@ def handle_destroy(actor):
 # Get ready to start
 stage.connect("destroy", handle_destroy)
 stage.connect("button-press-event", handle_btn_press)
-stage.show_all()
+stage.show()
 Clutter.main()
 
 
