@@ -66,6 +66,14 @@ def handle_btn_press(actor, event):
     return Clutter.EVENT_STOP
 
 
+def handle_key_press(actor, event):
+    print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
+    if (event.keyval == Clutter.KEY_q) and (event.modifier_state == Clutter.ModifierType.SHIFT_MASK):
+        print("INFO: Bowing down gracefully")
+        Clutter.main_quit()
+    return Clutter.EVENT_STOP
+
+
 def handle_destroy(actor):
     print("INFO:destroy:WhyDear-OkOk:{}".format(actor))
     Clutter.main_quit()
@@ -88,6 +96,7 @@ imgBtn2.connect("button-press-event", handle_btn_press)
 print(stage.get_children())
 stage.connect("destroy", handle_destroy)
 stage.connect("button-press-event", handle_btn_press)
+stage.connect("key-press-event", handle_key_press)
 stage.show()
 Clutter.main()
 
