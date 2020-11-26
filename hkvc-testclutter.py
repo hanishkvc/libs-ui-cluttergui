@@ -68,7 +68,8 @@ def handle_btn_press(actor, event):
 
 def handle_key_press(actor, event):
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
-    if (event.keyval == Clutter.KEY_q) and (event.modifier_state == Clutter.ModifierType.SHIFT_MASK):
+    CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
+    if (event.keyval == Clutter.KEY_Q) and ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         print("INFO: Bowing down gracefully")
         Clutter.main_quit()
     return Clutter.EVENT_STOP
