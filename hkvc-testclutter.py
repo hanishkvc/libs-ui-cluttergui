@@ -73,10 +73,14 @@ def handle_key_press(actor, event):
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
+            lBtns[iCnt].save_easing_state()
             lBtns[iCnt].set_scale(1, 1)
+            lBtns[iCnt].restore_easing_state()
             iCnt += 1
             iCnt = iCnt % len(lBtns)
+            lBtns[iCnt].save_easing_state()
             lBtns[iCnt].set_scale(1.2, 1)
+            lBtns[iCnt].restore_easing_state()
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
