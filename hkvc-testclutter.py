@@ -69,9 +69,12 @@ def handle_btn_press(actor, event):
 def handle_key_press(actor, event):
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
-    if (event.keyval == Clutter.KEY_Q) and ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
-        print("INFO: Bowing down gracefully")
-        Clutter.main_quit()
+    if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
+        if (event.keyval == Clutter.KEY_A):
+            imgBtn1.set_scale(1.2, 1)
+        elif (event.keyval == Clutter.KEY_Q):
+            print("INFO: Bowing down gracefully")
+            Clutter.main_quit()
     return Clutter.EVENT_STOP
 
 
