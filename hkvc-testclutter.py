@@ -66,12 +66,17 @@ def handle_btn_press(actor, event):
     return Clutter.EVENT_STOP
 
 
+iCnt = 0
 def handle_key_press(actor, event):
+    global iCnt
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
-            imgBtn1.set_scale(1.2, 1)
+            lBtns[iCnt].set_scale(1, 1)
+            iCnt += 1
+            iCnt = iCnt % len(lBtns)
+            lBtns[iCnt].set_scale(1.2, 1)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -94,6 +99,8 @@ imgBtn1.connect("button-press-event", handle_btn_press)
 imgBtn2 = create_imagebutton("image1.png", 100, 50, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
+
+lBtns = [ imgBtn1, imgBtn2 ]
 
 
 # Get ready to start
