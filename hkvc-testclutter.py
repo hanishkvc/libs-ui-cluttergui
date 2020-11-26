@@ -67,20 +67,24 @@ def handle_btn_press(actor, event):
 
 
 iCnt = 0
-def handle_key_press(actor, event):
+def animate(lBtns):
     global iCnt
+    lBtns[iCnt].save_easing_state()
+    lBtns[iCnt].set_scale(1, 1)
+    lBtns[iCnt].restore_easing_state()
+    iCnt += 1
+    iCnt = iCnt % len(lBtns)
+    lBtns[iCnt].save_easing_state()
+    lBtns[iCnt].set_scale(1.2, 1)
+    lBtns[iCnt].restore_easing_state()
+
+
+def handle_key_press(actor, event):
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
-            lBtns[iCnt].save_easing_state()
-            lBtns[iCnt].set_scale(1, 1)
-            lBtns[iCnt].restore_easing_state()
-            iCnt += 1
-            iCnt = iCnt % len(lBtns)
-            lBtns[iCnt].save_easing_state()
-            lBtns[iCnt].set_scale(1.2, 1)
-            lBtns[iCnt].restore_easing_state()
+            animate(listBtns)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -104,7 +108,7 @@ imgBtn2 = create_imagebutton("image1.png", 100, 50, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 
-lBtns = [ imgBtn1, imgBtn2 ]
+listBtns = [ imgBtn1, imgBtn2 ]
 
 
 # Get ready to start
