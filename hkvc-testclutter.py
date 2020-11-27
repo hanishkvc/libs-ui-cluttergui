@@ -83,17 +83,17 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
 
 
 # UI Helper
-iCnt = 0
-def animate_list(lBtns):
-    global iCnt
-    lBtns[iCnt].save_easing_state()
-    lBtns[iCnt].set_scale(1, 1)
-    lBtns[iCnt].restore_easing_state()
-    iCnt += 1
-    iCnt = iCnt % len(lBtns)
-    lBtns[iCnt].save_easing_state()
-    lBtns[iCnt].set_scale(1.2, 1)
-    lBtns[iCnt].restore_easing_state()
+def animate_list(lBtns, lPos, iYRotate=0):
+    lBtns[lPos].save_easing_state()
+    lBtns[lPos].set_scale(1, 1)
+    lBtns[lPos].restore_easing_state()
+    lPos += 1
+    lPos = lPos % len(lBtns)
+    lBtns[lPos].save_easing_state()
+    lBtns[lPos].set_scale(1.2, 1)
+    lBtns[lPos].set_rotation_angle(Clutter.RotateAxis.Y_AXIS, iYRotate)
+    lBtns[lPos].restore_easing_state()
+    return lPos, iYRotate
 
 
 AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
@@ -141,12 +141,12 @@ def handle_btn_press(actor, event):
 
 
 def handle_key_press(actor, event):
-    global boxvPos, boxhPos
+    global boxvPos, boxhPos, lPos, lYRotate
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
-            animate_list(listBtns)
+            lPos, lYRotate = animate_list(listBtns, lPos, lYRotate+10)
             boxvPos = animate_listbox(boxv, boxvPos)
             boxhPos = animate_listbox(boxh, boxhPos)
         elif (event.keyval == Clutter.KEY_Q):
@@ -170,6 +170,8 @@ imgBtn1.connect("button-press-event", handle_btn_press)
 imgBtn2 = create_imagebutton("image1.png", 300, 400, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
+lPos = 0
+lYRotate = 0
 listBtns = [ imgBtn1, imgBtn2 ]
 
 images = [ "image1.png", "image1.png", "image1.png", "image1.png" ]
