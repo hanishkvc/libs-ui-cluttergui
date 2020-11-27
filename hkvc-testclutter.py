@@ -175,10 +175,10 @@ def handle_destroy(actor):
 label = create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
-imgBtn1 = create_imagebutton("image1.png", 300, 200, 300, 100, "ibtn1")
+imgBtn1 = create_imagebutton("image1.png", 100, 450, 300, 100, "ibtn1")
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
-imgBtn2 = create_imagebutton("image1.png", 300, 400, 300, 100, "ibtn2")
+imgBtn2 = create_imagebutton("image1.png", 400, 450, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 lPos = 0
@@ -190,7 +190,12 @@ boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orie
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
 stage.add_child(boxv)
-boxh = create_listbox_imagebuttons(images, 40,400, 120*4,40, 120,40, Clutter.Orientation.HORIZONTAL)
+images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
+boxh = create_listbox_imagebuttons(images, 140,100, 128*4,128, 128,128, Clutter.Orientation.HORIZONTAL)
+boxhPos = 0
+stage.add_child(boxh)
+images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
+boxh = create_listbox_imagebuttons(images, 140,300, 128*4,128, 128,128, Clutter.Orientation.HORIZONTAL)
 boxhPos = 0
 stage.add_child(boxh)
 

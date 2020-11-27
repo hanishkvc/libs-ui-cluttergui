@@ -26,7 +26,7 @@ def gen_image(text, fileName):
 
 
 # What do we want
-groups = { "Cat": 5, "Item": 10 }
+groups = { "Cat": 5, "Item": 20 }
 
 for g in groups:
     groupMemberCnt = groups[g]
