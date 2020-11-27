@@ -80,19 +80,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     boxList.set_size(sizeX, sizeY)
     i = 0
     for imageFile in imageFiles:
-        x = posX
-        y = posY
-        if orientation == Clutter.Orientation.HORIZONTAL:
-            x = posX + i*btnSizeX
-        else:
-            x = posX
-        if orientation == Clutter.Orientation.VERTICAL:
-            y = posY + i*btnSizeY
-        else:
-            y = posY
-        x,y = -1,-1
-        print("listbox:btn{}:pos{},{}".format(i, x, y))
-        btn = create_imagebutton(imageFile, x, y, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         boxList.add_child(btn)
         i += 1
     return boxList
