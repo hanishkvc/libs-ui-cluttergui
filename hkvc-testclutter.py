@@ -55,7 +55,7 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-def create_list_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons"):
+def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons"):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxList = Clutter.Actor()
@@ -83,7 +83,7 @@ def create_list_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btn
 
 # UI Helper
 iCnt = 0
-def animate(lBtns):
+def animate_list(lBtns):
     global iCnt
     lBtns[iCnt].save_easing_state()
     lBtns[iCnt].set_scale(1, 1)
@@ -93,6 +93,20 @@ def animate(lBtns):
     lBtns[iCnt].save_easing_state()
     lBtns[iCnt].set_scale(1.2, 1)
     lBtns[iCnt].restore_easing_state()
+
+
+def animate_listbox(lb, lbPos):
+    cnt = lb.get_n_children()
+    lbNxt = (lbPos + 1) % cnt
+    curActor = lb.get_child_at_index(lbPos)
+    nxtActor = lb.get_child_at_index(lbNxt)
+    curActor.save_easing_state()
+    nxtActor.save_easing_state()
+    curActor.set_scale(1, 1)
+    nxtActor.set_scale(1.1, 1.1)
+    curActor.restore_easing_state()
+    nxtActor.restore_easing_state()
+    return lbNxt
 
 
 # Handle events
@@ -107,11 +121,13 @@ def handle_btn_press(actor, event):
 
 
 def handle_key_press(actor, event):
+    global boxvPos
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
-            animate(listBtns)
+            animate_list(listBtns)
+            boxvPos = animate_listbox(boxv, boxvPos)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -135,8 +151,9 @@ stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 listBtns = [ imgBtn1, imgBtn2 ]
 
-images = [ "image1.png", "image1.png" ]
-boxv = create_list_imagebuttons(images, 10,10, 120,80*3, 120,40, Clutter.Orientation.VERTICAL)
+images = [ "image1.png", "image1.png", "image1.png", "image1.png" ]
+boxv = create_listbox_imagebuttons(images, 10,10, 180,60*3, 180,60, Clutter.Orientation.VERTICAL)
+boxvPos = 0
 stage.add_child(boxv)
 
 
