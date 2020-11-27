@@ -15,21 +15,24 @@ pygame.font.init()
 f=pygame.sysfont.SysFont(None,32)
 
 
-# update the surface
-s.fill((128,128,128))
-text = "testme"
-#print(f.size(text))
-fs=f.render("testme",True,(0,0,100))
-textSize = fs.get_size()
-x = (surfaceSize[0] - textSize[0])/2
-y = (surfaceSize[1] - textSize[1])/2
-s.blit(fs,(x,y))
+def gen_image(text, fileName):
+    s.fill((128,128,128))
+    fs=f.render(text, True, (0,0,100))
+    textSize = fs.get_size()
+    x = (surfaceSize[0] - textSize[0])/2
+    y = (surfaceSize[1] - textSize[1])/2
+    s.blit(fs,(x,y))
+    pygame.image.save(s, fileName)
 
 
-# Show the surface to user
-#pygame.display.update()
+# What do we want
+groups = { "Cat": 5, "Item": 10 }
 
-
-# Save the surface for user
-pygame.image.save(s,"/tmp/testme.png")
+for g in groups:
+    groupMemberCnt = groups[g]
+    for i in range(groupMemberCnt):
+        text = "{}{}".format(g, i)
+        fileName = "{}.png".format(text)
+        print(fileName)
+        gen_image(text, fileName)
 
