@@ -69,10 +69,10 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons",
-        padX=30, padY=30):
+def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons", pad=1):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
+    boxLayout.set_spacing(pad)
     boxList = Clutter.Actor()
     boxList.set_layout_manager(boxLayout)
     boxList.set_id(id)
@@ -83,11 +83,11 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         x = posX
         y = posY
         if orientation == Clutter.Orientation.HORIZONTAL:
-            x = posX + i*btnSizeX + i*padX
+            x = posX + i*btnSizeX
         else:
             x = posX
         if orientation == Clutter.Orientation.VERTICAL:
-            y = posY + i*btnSizeY + i*padY
+            y = posY + i*btnSizeY
         else:
             y = posY
         x,y = -1,-1
