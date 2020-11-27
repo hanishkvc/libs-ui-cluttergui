@@ -61,8 +61,10 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     imgBtn.set_content(btnImage)
     imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
     imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
-    imgBtn.set_position(posX, posY)
-    imgBtn.set_size(sizeX, sizeY)
+    if (posX != -1) and (posY != -1):
+        imgBtn.set_position(posX, posY)
+    if (sizeX != -1) and (sizeY != -1):
+        imgBtn.set_size(sizeX, sizeY)
     imgBtn.set_reactive(True)
     return imgBtn
 
@@ -88,6 +90,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
             y = posY + i*btnSizeY + i*padY
         else:
             y = posY
+        x,y = -1,-1
         print("listbox:btn{}:pos{},{}".format(i, x, y))
         btn = create_imagebutton(imageFile, x, y, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         boxList.add_child(btn)
