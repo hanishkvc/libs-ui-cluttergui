@@ -18,6 +18,16 @@ pathData = "data/"
 Clutter.init()
 
 
+# data loading helpers
+def load_pixbuf(imageFile):
+    '''
+    create a pixbuf from specified image in the data directory
+    '''
+    imageFile = "{}/{}".format(pathData, imageFile)
+    pixbuf = GdkPixbuf.Pixbuf.new_from_file(imageFile)
+    return pixbuf
+
+
 # Create the stage
 stage = Clutter.Stage()
 stage.set_background_color(Clutter.color_from_string("Red")[1])
@@ -40,8 +50,7 @@ def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f
 
 
 def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
-    imageFile = "{}/{}".format(pathData, imageFile)
-    btnPixbuf = GdkPixbuf.Pixbuf.new_from_file(imageFile)
+    btnPixbuf = load_pixbuf(imageFile)
     btnImage = Clutter.Image()
     pixelFormat = Cogl.PixelFormat.RGB_888
     if btnPixbuf.get_has_alpha():
