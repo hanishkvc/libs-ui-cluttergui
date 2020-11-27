@@ -14,6 +14,7 @@ from gi.repository import GdkPixbuf
 from gi.repository import Cogl
 
 # Initialise
+pathData = "data/"
 Clutter.init()
 
 
@@ -39,6 +40,7 @@ def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f
 
 
 def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
+    imageFile = "{}/{}".format(pathData, imageFile)
     btnPixbuf = GdkPixbuf.Pixbuf.new_from_file(imageFile)
     btnImage = Clutter.Image()
     pixelFormat = Cogl.PixelFormat.RGB_888
@@ -174,8 +176,8 @@ lPos = 0
 lYRotate = 0
 listBtns = [ imgBtn1, imgBtn2 ]
 
-images = [ "image1.png", "image1.png", "image1.png", "image1.png" ]
-boxv = create_listbox_imagebuttons(images, 20,20, 180,60*3, 180,60, Clutter.Orientation.VERTICAL)
+images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
+boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
 stage.add_child(boxv)
