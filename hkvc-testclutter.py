@@ -95,7 +95,7 @@ def animate_list(lBtns):
     lBtns[iCnt].restore_easing_state()
 
 
-def animate_listbox(lb, lbPos):
+def animate_listbox(lb, lbPos, animOrientation=None):
     cnt = lb.get_n_children()
     lbNxt = (lbPos + 1) % cnt
     curActor = lb.get_child_at_index(lbPos)
@@ -103,7 +103,18 @@ def animate_listbox(lb, lbPos):
     curActor.save_easing_state()
     nxtActor.save_easing_state()
     curActor.set_scale(1, 1)
-    nxtActor.set_scale(1.1, 1.1)
+    if (animOrientation == None):
+        animOrientation = lb.get_layout_manager().get_orientation()
+    if (animOrientation == Clutter.Orientation.HORIZONTAL):
+        xScale = 1
+        yScale = 1.1
+    elif (animOrientation == Clutter.Orientation.VERTICAL):
+        xScale = 1.1
+        yScale = 1
+    else:
+        xScale = 1.1
+        yScale = 1.1
+    nxtActor.set_scale(xScale, yScale)
     curActor.restore_easing_state()
     nxtActor.restore_easing_state()
     return lbNxt
@@ -121,13 +132,14 @@ def handle_btn_press(actor, event):
 
 
 def handle_key_press(actor, event):
-    global boxvPos
+    global boxvPos, boxhPos
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
             animate_list(listBtns)
             boxvPos = animate_listbox(boxv, boxvPos)
+            boxhPos = animate_listbox(boxh, boxhPos)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -155,6 +167,9 @@ images = [ "image1.png", "image1.png", "image1.png", "image1.png" ]
 boxv = create_listbox_imagebuttons(images, 10,10, 180,60*3, 180,60, Clutter.Orientation.VERTICAL)
 boxvPos = 0
 stage.add_child(boxv)
+boxh = create_listbox_imagebuttons(images, 100,250, 60*4,20, 60,20, Clutter.Orientation.HORIZONTAL)
+boxhPos = 0
+stage.add_child(boxh)
 
 
 # Get ready to start
