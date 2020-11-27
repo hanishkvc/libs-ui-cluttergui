@@ -176,6 +176,7 @@ listBtns = [ imgBtn1, imgBtn2 ]
 
 images = [ "image1.png", "image1.png", "image1.png", "image1.png" ]
 boxv = create_listbox_imagebuttons(images, 20,20, 180,60*3, 180,60, Clutter.Orientation.VERTICAL)
+boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
 stage.add_child(boxv)
 boxh = create_listbox_imagebuttons(images, 40,400, 120*4,40, 120,40, Clutter.Orientation.HORIZONTAL)
