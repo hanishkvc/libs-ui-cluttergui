@@ -55,17 +55,33 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-# Handle events
-def handle_btn_press(actor, event):
-    print("INFO:BtnPress:{},{}".format(actor, event))
-    if actor == stage:
-        print("INFO: Bowing down gracefully")
-        Clutter.main_quit()
-    elif actor in (imgBtn1, imgBtn2):
-        print("INFO: Button is pressed:", actor.get_id())
-    return Clutter.EVENT_STOP
+def create_list_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons"):
+    boxLayout = Clutter.BoxLayout()
+    boxLayout.set_orientation(orientation)
+    boxList = Clutter.Actor()
+    boxList.set_layout_manager(boxLayout)
+    boxList.set_id(id)
+    boxList.set_position(posX, posY)
+    boxList.set_size(sizeX, sizeY)
+    i = 0
+    for imageFile in imageFiles:
+        x = posX
+        y = posY
+        if orientation == Clutter.Orientation.HORIZONTAL:
+            x = posX + i*btnSizeX
+        else:
+            x = posX
+        if orientation == Clutter.Orientation.VERTICAL:
+            y = posY + i*btnSizeY
+        else:
+            y = posY
+        btn = create_imagebutton(imageFile, x, y, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        boxList.add_child(btn)
+        i += 1
+    return boxList
 
 
+# UI Helper
 iCnt = 0
 def animate(lBtns):
     global iCnt
@@ -77,6 +93,17 @@ def animate(lBtns):
     lBtns[iCnt].save_easing_state()
     lBtns[iCnt].set_scale(1.2, 1)
     lBtns[iCnt].restore_easing_state()
+
+
+# Handle events
+def handle_btn_press(actor, event):
+    print("INFO:BtnPress:{},{}".format(actor, event))
+    if actor == stage:
+        print("INFO: Bowing down gracefully")
+        Clutter.main_quit()
+    elif actor in (imgBtn1, imgBtn2):
+        print("INFO: Button is pressed:", actor.get_id())
+    return Clutter.EVENT_STOP
 
 
 def handle_key_press(actor, event):
@@ -103,12 +130,14 @@ stage.add_child(label)
 imgBtn1 = create_imagebutton("image1.png", 100, 250, 300, 100, "ibtn1")
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
-
 imgBtn2 = create_imagebutton("image1.png", 100, 50, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
-
 listBtns = [ imgBtn1, imgBtn2 ]
+
+images = [ "image1.png", "image1.png" ]
+boxv = create_list_imagebuttons(images, 10,10, 120,80*3, 120,40, Clutter.Orientation.VERTICAL)
+stage.add_child(boxv)
 
 
 # Get ready to start
