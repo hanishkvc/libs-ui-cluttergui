@@ -4,6 +4,7 @@
 #
 
 
+import enum
 # Import Clutter for use
 import gi
 gi.require_version('Clutter', '1.0')
@@ -19,7 +20,7 @@ Clutter.init()
 # Create the stage
 stage = Clutter.Stage()
 stage.set_background_color(Clutter.color_from_string("Red")[1])
-stage.set_size(600,400)
+stage.set_size(800,600)
 stage.set_title("Hello World 7")
 
 
@@ -95,6 +96,7 @@ def animate_list(lBtns):
     lBtns[iCnt].restore_easing_state()
 
 
+AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
 def animate_listbox(lb, lbPos, animOrientation=None):
     cnt = lb.get_n_children()
     lbNxt = (lbPos + 1) % cnt
@@ -104,13 +106,20 @@ def animate_listbox(lb, lbPos, animOrientation=None):
     nxtActor.save_easing_state()
     curActor.set_scale(1, 1)
     if (animOrientation == None):
-        animOrientation = lb.get_layout_manager().get_orientation()
-    if (animOrientation == Clutter.Orientation.HORIZONTAL):
-        xScale = 1
-        yScale = 1.1
-    elif (animOrientation == Clutter.Orientation.VERTICAL):
+        listOrientation = lb.get_layout_manager().get_orientation()
+        if listOrientation == Clutter.Orientation.HORIZONTAL:
+            animOrientation = AnimOrientation.VERTICAL
+        elif listOrientation == Clutter.Orientation.VERTICAL:
+            animOrientation = AnimOrientation.HORIZONTAL
+        else:
+            print("WARN:animate_listbox:Unknown listbox Orientation")
+            animOrientation = AnimOrientation.BOTH
+    if (animOrientation == AnimOrientation.HORIZONTAL):
         xScale = 1.1
         yScale = 1
+    elif (animOrientation == AnimOrientation.VERTICAL):
+        xScale = 1
+        yScale = 1.1
     else:
         xScale = 1.1
         yScale = 1.1
@@ -152,22 +161,22 @@ def handle_destroy(actor):
 
 
 # Create children and connect event handlers
-label = create_label("Hello again 007", 200, 200)
+label = create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
-imgBtn1 = create_imagebutton("image1.png", 100, 250, 300, 100, "ibtn1")
+imgBtn1 = create_imagebutton("image1.png", 300, 200, 300, 100, "ibtn1")
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
-imgBtn2 = create_imagebutton("image1.png", 100, 50, 300, 100, "ibtn2")
+imgBtn2 = create_imagebutton("image1.png", 300, 400, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 listBtns = [ imgBtn1, imgBtn2 ]
 
 images = [ "image1.png", "image1.png", "image1.png", "image1.png" ]
-boxv = create_listbox_imagebuttons(images, 10,10, 180,60*3, 180,60, Clutter.Orientation.VERTICAL)
+boxv = create_listbox_imagebuttons(images, 20,20, 180,60*3, 180,60, Clutter.Orientation.VERTICAL)
 boxvPos = 0
 stage.add_child(boxv)
-boxh = create_listbox_imagebuttons(images, 100,250, 60*4,20, 60,20, Clutter.Orientation.HORIZONTAL)
+boxh = create_listbox_imagebuttons(images, 40,400, 120*4,40, 120,40, Clutter.Orientation.HORIZONTAL)
 boxhPos = 0
 stage.add_child(boxh)
 
