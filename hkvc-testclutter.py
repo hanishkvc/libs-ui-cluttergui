@@ -197,9 +197,9 @@ def handle_lb_btn_release(actor, event):
             xD = event.x - pressPos[0]
             yD = event.y - pressPos[1]
             if abs(xD) > abs(yD):
-                gActors[aID]['posX'] += xD
+                gActors[aID]['posX'] -= xD
             else:
-                gActors[aID]['posY'] += yD
+                gActors[aID]['posY'] -= yD
             point = Clutter.Point()
             point.x = gActors[aID]['posX']
             point.y = gActors[aID]['posY']
@@ -210,7 +210,7 @@ def handle_lb_btn_release(actor, event):
 
 
 def handle_lb_motion(actor, event):
-    print("INFO:LbMotion:{},{}".format(actor, event))
+    #print("INFO:LbMotion:{},{}".format(actor, event))
     aID = actor.get_id()
     pressPos = gActors[aID]['pressPos']
     pressTime = gActors[aID]['pressTime']
@@ -219,9 +219,9 @@ def handle_lb_motion(actor, event):
             xD = event.x - pressPos[0]
             yD = event.y - pressPos[1]
             if abs(xD) > abs(yD):
-                gActors[aID]['posX'] += xD
+                gActors[aID]['posX'] -= xD
             else:
-                gActors[aID]['posY'] += yD
+                gActors[aID]['posY'] -= yD
             point = Clutter.Point()
             point.x = gActors[aID]['posX']
             point.y = gActors[aID]['posY']
