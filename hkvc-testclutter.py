@@ -83,6 +83,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         boxList.add_child(btn)
         i += 1
+    boxList.set_reactive(True)
     return boxList
 
 
@@ -136,6 +137,7 @@ def animate_listbox(lb, lbPos, animOrientation=None):
 # Handle events
 def handle_btn_press(actor, event):
     print("INFO:BtnPress:{},{}".format(actor, event))
+    print("\t x,y [{},{}], btn [{}]".format(event.x, event.y, event.button))
     if actor == stage:
         print("INFO: Bowing down gracefully")
         Clutter.main_quit()
@@ -164,6 +166,13 @@ def handle_destroy(actor):
     Clutter.main_quit()
 
 
+def handle_lb_btn_press(actor, event):
+    print("INFO:LbBtnPress:{},{}".format(actor, event))
+    #print("\t x,y [{}], btn [{}]".format(event.get_coords(), event.get_button()))
+    print("\t x,y [{},{}], btn [{}]".format(event.x, event.y, event.button))
+    return Clutter.EVENT_STOP
+
+
 # Create children and connect event handlers
 label = create_label("Hello again 007", 400, 20)
 stage.add_child(label)
@@ -182,6 +191,7 @@ images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
 boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
+boxv.connect("button-press-event", handle_lb_btn_press)
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
