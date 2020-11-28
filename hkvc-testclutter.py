@@ -209,6 +209,27 @@ def handle_lb_btn_release(actor, event):
     return Clutter.EVENT_STOP
 
 
+def handle_lb_motion(actor, event):
+    print("INFO:LbMotion:{},{}".format(actor, event))
+    aID = actor.get_id()
+    pressPos = gActors[aID]['pressPos']
+    pressTime = gActors[aID]['pressTime']
+    if pressTime != None:
+        if (event.time - pressTime) < GESTURE_MAXTIME:
+            xD = event.x - pressPos[0]
+            yD = event.y - pressPos[1]
+            if abs(xD) > abs(yD):
+                gActors[aID]['posX'] += xD
+            else:
+                gActors[aID]['posY'] += yD
+            point = Clutter.Point()
+            point.x = gActors[aID]['posX']
+            point.y = gActors[aID]['posY']
+            actor.scroll_to_point(point)
+            gActors[aID]['pressPos'] = (event.x, event.y)
+    return True
+
+
 # Create children and connect event handlers
 label = create_label("Hello again 007", 400, 20)
 stage.add_child(label)
@@ -229,6 +250,7 @@ boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
 boxv.connect("button-press-event", handle_lb_btn_press)
 boxv.connect("button-release-event", handle_lb_btn_release)
+boxv.connect("motion-event", handle_lb_motion)
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
