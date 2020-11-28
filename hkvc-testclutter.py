@@ -168,7 +168,7 @@ def handle_destroy(actor):
 
 def handle_lb_btn_press(actor, event):
     print("INFO:LbBtnPress:{},{}".format(actor, event))
-    #print("\t x,y [{}], btn [{}]".format(event.get_coords(), event.get_button()))
+    print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
     print("\t x,y [{},{}], btn [{}]".format(event.x, event.y, event.button))
     return Clutter.EVENT_STOP
 
