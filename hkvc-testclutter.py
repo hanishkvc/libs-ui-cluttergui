@@ -36,6 +36,9 @@ stage.set_title("Hello World 7")
 
 
 # Widget helpers
+gActors = {}
+
+
 def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
     label = Clutter.Text()
     label.set_id(id)
@@ -89,6 +92,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
+    gActors[id] = { 'curIndex': 0, 'pressPos': None, 'pressTime': None, 'posX': 0, 'posY':0 }
     return boxList
 
 
@@ -174,7 +178,34 @@ def handle_destroy(actor):
 def handle_lb_btn_press(actor, event):
     print("INFO:LbBtnPress:{},{}".format(actor, event))
     print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
-    print("\t x,y [{},{}], btn [{}]".format(event.x, event.y, event.button))
+    print("\t x,y [{},{}], btn [{}], time [{}]".format(event.x, event.y, event.button, event.time))
+    aID = actor.get_id()
+    gActors[aID]['pressPos'] = (event.x, event.y)
+    gActors[aID]['pressTime'] = event.time
+    return Clutter.EVENT_STOP
+
+
+GESTURE_MAXTIME = 3000
+def handle_lb_btn_release(actor, event):
+    print("INFO:LbBtnRelease:{},{}".format(actor, event))
+    print("\t x,y [{},{}], btn [{}], time [{}]".format(event.x, event.y, event.button, event.time))
+    aID = actor.get_id()
+    pressPos = gActors[aID]['pressPos']
+    pressTime = gActors[aID]['pressTime']
+    if pressTime != None:
+        if (event.time - pressTime) < GESTURE_MAXTIME:
+            xD = event.x - pressPos[0]
+            yD = event.y - pressPos[1]
+            if abs(xD) > abs(yD):
+                gActors[aID]['posX'] += xD
+            else:
+                gActors[aID]['posY'] += yD
+            point = Clutter.Point()
+            point.x = gActors[aID]['posX']
+            point.y = gActors[aID]['posY']
+            actor.scroll_to_point(point)
+        gActors[aID]['pressPos'] = None
+        gActors[aID]['pressTime'] = None
     return Clutter.EVENT_STOP
 
 
@@ -197,6 +228,7 @@ boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orie
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
 boxv.connect("button-press-event", handle_lb_btn_press)
+boxv.connect("button-release-event", handle_lb_btn_release)
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
