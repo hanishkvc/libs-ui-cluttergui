@@ -73,7 +73,12 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxLayout.set_spacing(pad)
-    boxList = Clutter.Actor()
+    boxList = Clutter.ScrollActor()
+    if orientation == Clutter.Orientation.HORIZONTAL:
+        boxList.set_scroll_mode(Clutter.ScrollMode.HORIZONTALLY)
+    elif orientation == Clutter.Orientation.VERTICAL:
+        boxList.set_scroll_mode(Clutter.ScrollMode.VERTICALLY)
+    #boxList = Clutter.Actor()
     boxList.set_layout_manager(boxLayout)
     boxList.set_id(id)
     boxList.set_position(posX, posY)
@@ -209,7 +214,7 @@ stage.add_child(boxh)
 # Get ready to start
 print(stage.get_children())
 stage.connect("destroy", handle_destroy)
-stage.connect("button-press-event", handle_btn_press)
+#stage.connect("button-press-event", handle_btn_press)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
 Clutter.main()
