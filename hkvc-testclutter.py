@@ -175,60 +175,37 @@ def handle_destroy(actor):
     Clutter.main_quit()
 
 
-def handle_lb_btn_press(actor, event):
-    print("INFO:LbBtnPress:{},{}:typ {}:stage {}:flag {}".format(actor, event, event.type, event.stage, event.flags))
-    print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
-    print("\t x,y [{},{}], btn [{}], time [{}]".format(event.x, event.y, event.button, event.time))
-    aID = actor.get_id()
-    gActors[aID]['pressPos'] = (event.x, event.y)
-    gActors[aID]['pressTime'] = event.time
-    return Clutter.EVENT_STOP
-
-
 GESTURE_MAXTIME = 3000
-def handle_lb_btn_release(actor, event):
-    print("INFO:LbBtnRelease:{},{}:typ {}:stage {}:flag {}".format(actor, event, event.type, event.stage, event.flags))
-    print("\t x,y [{},{}], btn [{}], time [{}]".format(event.x, event.y, event.button, event.time))
+def handle_lb_mouse(actor, event):
+    print("INFO:LbMouse:{}:{},{}:x,y = {},{}:typ {}:stage {}:flag {}".format(event.time, actor, event, event.x, event.y, event.type, event.stage, event.flags))
+    #print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
     aID = actor.get_id()
-    pressPos = gActors[aID]['pressPos']
-    pressTime = gActors[aID]['pressTime']
-    if pressTime != None:
-        if (event.time - pressTime) < GESTURE_MAXTIME:
-            xD = event.x - pressPos[0]
-            yD = event.y - pressPos[1]
-            if abs(xD) > abs(yD):
-                gActors[aID]['posX'] -= xD
-            else:
-                gActors[aID]['posY'] -= yD
-            point = Clutter.Point()
-            point.x = gActors[aID]['posX']
-            point.y = gActors[aID]['posY']
-            actor.scroll_to_point(point)
-        gActors[aID]['pressPos'] = None
-        gActors[aID]['pressTime'] = None
-    return Clutter.EVENT_STOP
-
-
-def handle_lb_motion(actor, event):
-    #print("INFO:LbMotion:{},{}".format(actor, event))
-    print("INFO:LbBtnRelease:{},{}:typ {}:stage {}:flag {}".format(actor, event, event.type, event.stage, event.flags))
-    aID = actor.get_id()
-    pressPos = gActors[aID]['pressPos']
-    pressTime = gActors[aID]['pressTime']
-    if pressTime != None:
-        if (event.time - pressTime) < GESTURE_MAXTIME:
-            xD = event.x - pressPos[0]
-            yD = event.y - pressPos[1]
-            if abs(xD) > abs(yD):
-                gActors[aID]['posX'] -= xD
-            else:
-                gActors[aID]['posY'] -= yD
-            point = Clutter.Point()
-            point.x = gActors[aID]['posX']
-            point.y = gActors[aID]['posY']
-            actor.scroll_to_point(point)
+    if event.type == Clutter.EventType.BUTTON_PRESS:
+        gActors[aID]['pressPos'] = (event.x, event.y)
+        gActors[aID]['pressTime'] = event.time
+        return Clutter.EVENT_STOP
+    else:
+        pressPos = gActors[aID]['pressPos']
+        pressTime = gActors[aID]['pressTime']
+        if pressTime != None:
+            if (event.time - pressTime) < GESTURE_MAXTIME:
+                xD = event.x - pressPos[0]
+                yD = event.y - pressPos[1]
+                if abs(xD) > abs(yD):
+                    gActors[aID]['posX'] -= xD
+                else:
+                    gActors[aID]['posY'] -= yD
+                point = Clutter.Point()
+                point.x = gActors[aID]['posX']
+                point.y = gActors[aID]['posY']
+                actor.scroll_to_point(point)
+        if event.type == Clutter.EventType.MOTION:
             gActors[aID]['pressPos'] = (event.x, event.y)
-    return True
+            return True
+        elif event.type == Clutter.EventType.BUTTON_RELEASE:
+            gActors[aID]['pressPos'] = None
+            gActors[aID]['pressTime'] = None
+            return Clutter.EVENT_STOP
 
 
 # Create children and connect event handlers
@@ -249,9 +226,9 @@ images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
 boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
-boxv.connect("button-press-event", handle_lb_btn_press)
-boxv.connect("button-release-event", handle_lb_btn_release)
-boxv.connect("motion-event", handle_lb_motion)
+boxv.connect("button-press-event", handle_lb_mouse)
+boxv.connect("button-release-event", handle_lb_mouse)
+boxv.connect("motion-event", handle_lb_mouse)
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
