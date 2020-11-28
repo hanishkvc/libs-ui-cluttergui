@@ -176,7 +176,7 @@ def handle_destroy(actor):
 
 
 def handle_lb_btn_press(actor, event):
-    print("INFO:LbBtnPress:{},{}".format(actor, event))
+    print("INFO:LbBtnPress:{},{}:typ {}:stage {}:flag {}".format(actor, event, event.type, event.stage, event.flags))
     print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
     print("\t x,y [{},{}], btn [{}], time [{}]".format(event.x, event.y, event.button, event.time))
     aID = actor.get_id()
@@ -187,7 +187,7 @@ def handle_lb_btn_press(actor, event):
 
 GESTURE_MAXTIME = 3000
 def handle_lb_btn_release(actor, event):
-    print("INFO:LbBtnRelease:{},{}".format(actor, event))
+    print("INFO:LbBtnRelease:{},{}:typ {}:stage {}:flag {}".format(actor, event, event.type, event.stage, event.flags))
     print("\t x,y [{},{}], btn [{}], time [{}]".format(event.x, event.y, event.button, event.time))
     aID = actor.get_id()
     pressPos = gActors[aID]['pressPos']
@@ -211,6 +211,7 @@ def handle_lb_btn_release(actor, event):
 
 def handle_lb_motion(actor, event):
     #print("INFO:LbMotion:{},{}".format(actor, event))
+    print("INFO:LbBtnRelease:{},{}:typ {}:stage {}:flag {}".format(actor, event, event.type, event.stage, event.flags))
     aID = actor.get_id()
     pressPos = gActors[aID]['pressPos']
     pressTime = gActors[aID]['pressTime']
