@@ -72,7 +72,8 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons", pad=1):
+def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
+        orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons", pad=1, handle_mouse=handle_lb_mouse):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxLayout.set_spacing(pad)
@@ -93,6 +94,10 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         i += 1
     boxList.set_reactive(True)
     gActors[id] = { 'curIndex': 0, 'pressPos': None, 'pressTime': None, 'posX': 0, 'posY':0 }
+    if handle_mouse != None:
+        boxList.connect("button-press-event", handle_mouse)
+        boxList.connect("button-release-event", handle_mouse)
+        boxList.connect("motion-event", handle_mouse)
     return boxList
 
 
@@ -226,9 +231,6 @@ images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
 boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
-boxv.connect("button-press-event", handle_lb_mouse)
-boxv.connect("button-release-event", handle_lb_mouse)
-boxv.connect("motion-event", handle_lb_mouse)
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
