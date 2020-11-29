@@ -102,7 +102,7 @@ def handle_lb_mouse(actor, event):
 
 
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
-        orientation=Clutter.Orientation.HORIZONTAL, id="listimagebuttons", pad=1, handle_mouse=handle_lb_mouse):
+        orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=handle_lb_mouse, handle_itemclick=None):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxLayout.set_spacing(pad)
@@ -119,6 +119,8 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     i = 0
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        if handle_itemclick != None:
+            btn.connect("button-press-event", handle_itemclick)
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
@@ -209,6 +211,12 @@ def handle_destroy(actor):
     Clutter.main_quit()
 
 
+def handle_lb_itemclick(actor, event):
+    aID = actor.get_id()
+    print(actor, event, aID)
+    return Clutter.EVENT_STOP
+
+
 # Create the stage
 stage = Clutter.Stage()
 stage.set_background_color(Clutter.color_from_string("Black")[1])
@@ -233,16 +241,16 @@ lYRotate = 0
 listBtns = [ imgBtn1, imgBtn2 ]
 
 images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
-boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL)
+boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL, id="cat", handle_itemclick=handle_lb_itemclick)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 boxvPos = 0
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
-boxh = create_listbox_imagebuttons(images, 132,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = create_listbox_imagebuttons(images, 132,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, id="il1", handle_itemclick=handle_lb_itemclick)
 boxhPos = 0
 stage.add_child(boxh)
-boxh = create_listbox_imagebuttons(images, 132,240, 128*6,32, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = create_listbox_imagebuttons(images, 132,240, 128*6,32, 128,128, Clutter.Orientation.HORIZONTAL, id="il2", handle_itemclick=handle_lb_itemclick)
 stage.add_child(boxh)
 images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
 boxh = create_listbox_imagebuttons(images, 132,284, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
