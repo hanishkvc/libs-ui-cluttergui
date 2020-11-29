@@ -71,7 +71,7 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
 
 
 GESTURE_DELTATIME_MS = 500
-def handle_lb_mouse(actor, event):
+def _handle_lb_mouse(actor, event):
     #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     aID = actor.get_id()
     if event.type == Clutter.EventType.BUTTON_PRESS:
@@ -102,15 +102,15 @@ def handle_lb_mouse(actor, event):
         return Clutter.EVENT_STOP
 
 
-def handle_lb_itemclick(actor, event):
-    handle_itemclick = gActors[actor.get_id()]['handle_itemclick']
+def _handle_lb_itemclick(actor, event):
+    handle_itemclick = gActors[actor.get_parent().get_id()]['handle_itemclick']
     if handle_itemclick != None:
         handle_itemclick(actor, event)
     return Clutter.EVENT_PROPAGATE
 
 
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
-        orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=handle_lb_mouse, handle_itemclick=None):
+        orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxLayout.set_spacing(pad)
@@ -128,7 +128,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         if handle_itemclick != None:
-            btn.connect("button-release-event", handle_lb_itemclick)
+            btn.connect("button-release-event", _handle_lb_itemclick)
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
