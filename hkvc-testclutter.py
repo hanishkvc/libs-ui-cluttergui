@@ -177,7 +177,7 @@ def animate_list(lBtns, lPos, iYRotate=0):
 
 AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
 SelectOffsetType = enum.Flag("SelectOffsetType", "START CUR")
-def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientation=None, colorizeEffect=None):
+def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientation=None, colorizeEffect=None, scrollToView=True):
     cnt = lb.get_n_children()
     aID = lb.get_id()
     curIndex = gActors[aID]['curIndex']
@@ -191,6 +191,14 @@ def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientatio
     nxtActor = lb.get_child_at_index(nxtIndex)
     curActor.save_easing_state()
     nxtActor.save_easing_state()
+    lb.save_easing_state()
+    lb.set_easing_duration(500)
+    if scrollToView:
+        nxtActorPos = nxtActor.get_position()
+        point = Clutter.Point()
+        point.x = nxtActorPos[0]
+        point.y = nxtActorPos[1]
+        lb.scroll_to_point(point)
     if colorizeEffect != None:
         curActor.remove_effect(colorizeEffect)
     curActor.set_scale(1, 1)
@@ -217,6 +225,7 @@ def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientatio
         nxtActor.add_effect(colorizeEffect)
     curActor.restore_easing_state()
     nxtActor.restore_easing_state()
+    lb.restore_easing_state()
     gActors[aID]['curIndex'] = nxtIndex
 
 
