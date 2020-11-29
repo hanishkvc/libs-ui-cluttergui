@@ -16,6 +16,12 @@ import cluttergui as cg
 Clutter.init()
 
 
+# required things
+colorizeEffect1 = Clutter.ColorizeEffect()
+colorizeEffect1.set_tint(Clutter.color_from_pixel(0xE0E0F0FF))
+print(colorizeEffect1.get_tint().to_string())
+
+
 # Handle events
 def handle_btn_press(actor, event):
     print("INFO:BtnPress:{},{}".format(actor, event))

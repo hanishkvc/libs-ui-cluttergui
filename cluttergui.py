@@ -31,9 +31,6 @@ def load_pixbuf(imageFile):
 # Widget helpers
 gActors = {}
 blurEffect = Clutter.BlurEffect()
-colorizeEffect1 = Clutter.ColorizeEffect()
-colorizeEffect1.set_tint(Clutter.color_from_pixel(0xE0E0F0FF))
-print(colorizeEffect1.get_tint().to_string())
 
 
 def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
@@ -102,7 +99,7 @@ def _handle_lb_mouse(actor, event):
                 gActors[aID]['posX'] = x
                 gActors[aID]['posY'] = y
             else:
-                print(x,y)
+                #print("DBUG:LBMouse:Motion:",x,y)
                 if gActors[aID]['blur'] == False:
                     actor.add_effect(blurEffect)
                     gActors[aID]['blur'] = True
