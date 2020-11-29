@@ -81,29 +81,27 @@ def handle_lb_mouse(actor, event):
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_STOP
-    else:
+    elif event.type == Clutter.EventType.MOTION:
         prevPos = gActors[aID]['prevPos']
         prevTime = gActors[aID]['prevTime']
-        if prevTime != None:
-            if (event.time - prevTime) < GESTURE_DELTATIME:
-                xD = event.x - prevPos[0]
-                yD = event.y - prevPos[1]
-                if abs(xD) > abs(yD):
-                    gActors[aID]['posX'] -= xD
-                else:
-                    gActors[aID]['posY'] -= yD
-                point = Clutter.Point()
-                point.x = gActors[aID]['posX']
-                point.y = gActors[aID]['posY']
-                actor.scroll_to_point(point)
-            if event.type == Clutter.EventType.MOTION:
-                gActors[aID]['prevPos'] = (event.x, event.y)
-                gActors[aID]['prevTime'] = event.time
-                return True
-        if event.type == Clutter.EventType.BUTTON_RELEASE:
-            gActors[aID]['prevPos'] = None
-            gActors[aID]['prevTime'] = None
-            return Clutter.EVENT_STOP
+        if (prevTime != None) and ((event.time - prevTime) < GESTURE_DELTATIME):
+            xD = event.x - prevPos[0]
+            yD = event.y - prevPos[1]
+            if abs(xD) > abs(yD):
+                gActors[aID]['posX'] -= xD
+            else:
+                gActors[aID]['posY'] -= yD
+            point = Clutter.Point()
+            point.x = gActors[aID]['posX']
+            point.y = gActors[aID]['posY']
+            actor.scroll_to_point(point)
+            gActors[aID]['prevPos'] = (event.x, event.y)
+            gActors[aID]['prevTime'] = event.time
+            return True
+    elif event.type == Clutter.EventType.BUTTON_RELEASE:
+        gActors[aID]['prevPos'] = None
+        gActors[aID]['prevTime'] = None
+        return Clutter.EVENT_STOP
 
 
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
