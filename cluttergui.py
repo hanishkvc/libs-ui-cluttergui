@@ -5,7 +5,7 @@
 
 
 import enum
-# Import Clutter for use
+## Import Clutter for use
 import gi
 gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
@@ -13,12 +13,15 @@ gi.require_version('GdkPixbuf', '2.0')
 from gi.repository import GdkPixbuf
 from gi.repository import Cogl
 
-# Initialise
+
+## Initialise
+
 pathData = "data/"
 Clutter.init()
 
 
-# data loading helpers
+## data loading helpers
+
 def load_pixbuf(imageFile):
     '''
     create a pixbuf from specified image in the data directory
@@ -28,10 +31,13 @@ def load_pixbuf(imageFile):
     return pixbuf
 
 
-# Widget helpers
+## Widget helpers
+
 gActors = {}
 blurEffect = Clutter.BlurEffect()
 
+
+# Labels
 
 def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
     label = Clutter.Text()
@@ -46,6 +52,8 @@ def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f
     return label
 
 
+# Images
+
 def create_image(imageFile):
     pixbuf = load_pixbuf(imageFile)
     image = Clutter.Image()
@@ -55,6 +63,8 @@ def create_image(imageFile):
     image.set_data(pixbuf.get_pixels(), pixelFormat, pixbuf.get_width(), pixbuf.get_height(), pixbuf.get_rowstride())
     return image
 
+
+# Buttons
 
 def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     btnImage = create_image(imageFile)
@@ -70,6 +80,8 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     imgBtn.set_reactive(True)
     return imgBtn
 
+
+# ListBoxs
 
 GESTURE_DELTATIME_MS = 500
 def _handle_lb_mouse(actor, event):
@@ -167,20 +179,6 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     return boxList
 
 
-# UI Helper
-def animate_list(lBtns, lPos, iYRotate=0):
-    lBtns[lPos].save_easing_state()
-    lBtns[lPos].set_scale(1, 1)
-    lBtns[lPos].restore_easing_state()
-    lPos += 1
-    lPos = lPos % len(lBtns)
-    lBtns[lPos].save_easing_state()
-    lBtns[lPos].set_scale(1.2, 1)
-    lBtns[lPos].set_rotation_angle(Clutter.RotateAxis.Y_AXIS, iYRotate)
-    lBtns[lPos].restore_easing_state()
-    return lPos, iYRotate
-
-
 AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
 SelectOffsetType = enum.Flag("SelectOffsetType", "START CUR")
 def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientation=None, colorizeEffect=None, scrollToView=True):
@@ -233,5 +231,19 @@ def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientatio
     nxtActor.restore_easing_state()
     lb.restore_easing_state()
     gActors[aID]['curIndex'] = nxtIndex
+
+
+# UI Helpers
+def animate_list(lBtns, lPos, iYRotate=0):
+    lBtns[lPos].save_easing_state()
+    lBtns[lPos].set_scale(1, 1)
+    lBtns[lPos].restore_easing_state()
+    lPos += 1
+    lPos = lPos % len(lBtns)
+    lBtns[lPos].save_easing_state()
+    lBtns[lPos].set_scale(1.2, 1)
+    lBtns[lPos].set_rotation_angle(Clutter.RotateAxis.Y_AXIS, iYRotate)
+    lBtns[lPos].restore_easing_state()
+    return lPos, iYRotate
 
 
