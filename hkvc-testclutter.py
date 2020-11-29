@@ -50,7 +50,7 @@ def create_image(imageFile):
     image = Clutter.Image()
     pixelFormat = Cogl.PixelFormat.RGB_888
     if pixbuf.get_has_alpha():
-        pixelFormat = Cogl.RGBA_8888
+        pixelFormat = Cogl.PixelFormat.RGBA_8888
     image.set_data(pixbuf.get_pixels(), pixelFormat, pixbuf.get_width(), pixbuf.get_height(), pixbuf.get_rowstride())
     return image
 
