@@ -31,6 +31,9 @@ def load_pixbuf(imageFile):
 # Widget helpers
 gActors = {}
 blurEffect = Clutter.BlurEffect()
+colorizeEffect = Clutter.ColorizeEffect()
+colorizeEffect.set_tint(Clutter.color_from_pixel(0xA0A0F0FF))
+print(colorizeEffect.get_tint().to_string())
 
 
 def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
@@ -179,6 +182,7 @@ def animate_listbox(lb, lbPos, animOrientation=None):
     nxtActor = lb.get_child_at_index(lbNxt)
     curActor.save_easing_state()
     nxtActor.save_easing_state()
+    #curActor.remove_effect(colorizeEffect)
     curActor.set_scale(1, 1)
     if (animOrientation == None):
         listOrientation = lb.get_layout_manager().get_orientation()
@@ -199,6 +203,7 @@ def animate_listbox(lb, lbPos, animOrientation=None):
         xScale = 1.1
         yScale = 1.1
     nxtActor.set_scale(xScale, yScale)
+    #nxtActor.add_effect(colorizeEffect)
     curActor.restore_easing_state()
     nxtActor.restore_easing_state()
     return lbNxt
@@ -256,6 +261,7 @@ label = create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
 imgBtn1 = create_imagebutton("image1.png", 100, 450, 300, 100, "ibtn1")
+imgBtn1.add_effect(colorizeEffect)
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
 imgBtn2 = create_imagebutton("image1.png", 400, 450, 300, 100, "ibtn2")
