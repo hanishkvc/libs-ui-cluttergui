@@ -30,6 +30,7 @@ def load_pixbuf(imageFile):
 
 # Widget helpers
 gActors = {}
+blurEffect = Clutter.BlurEffect()
 
 
 def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
@@ -99,6 +100,9 @@ def _handle_lb_mouse(actor, event):
                 gActors[aID]['posY'] = y
             else:
                 print(x,y)
+                if gActors[aID]['blur'] == False:
+                    actor.add_effect(blurEffect)
+                    gActors[aID]['blur'] = True
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
             return True
@@ -106,6 +110,9 @@ def _handle_lb_mouse(actor, event):
         print("DBUG:LBMouse:BtnRelease")
         gActors[aID]['prevPos'] = None
         gActors[aID]['prevTime'] = None
+        if gActors[aID]['blur']:
+            actor.remove_effect(blurEffect)
+            gActors[aID]['blur'] = False
         return Clutter.EVENT_STOP
 
 
@@ -139,7 +146,10 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
-    gActors[id] = { 'curIndex': 0, 'prevPos': None, 'prevTime': None, 'posX': 0, 'posY': 0, 'handle_itemclick': handle_itemclick }
+    gActors[id] = { 'curIndex': 0, 'prevPos': None, 'prevTime': None,
+                        'posX': 0, 'posY': 0,
+                        'handle_itemclick': handle_itemclick,
+                        'blur': False }
     if handle_mouse != None:
         boxList.connect("button-press-event", handle_mouse)
         boxList.connect("button-release-event", handle_mouse)
