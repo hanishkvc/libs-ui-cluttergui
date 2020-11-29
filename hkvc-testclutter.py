@@ -52,13 +52,18 @@ def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f
     return label
 
 
-def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
-    btnPixbuf = load_pixbuf(imageFile)
-    btnImage = Clutter.Image()
+def create_image(imageFile):
+    pixbuf = load_pixbuf(imageFile)
+    image = Clutter.Image()
     pixelFormat = Cogl.PixelFormat.RGB_888
-    if btnPixbuf.get_has_alpha():
+    if pixbuf.get_has_alpha():
         pixelFormat = Cogl.RGBA_8888
-    btnImage.set_data(btnPixbuf.get_pixels(), pixelFormat, btnPixbuf.get_width(), btnPixbuf.get_height(), btnPixbuf.get_rowstride())
+    image.set_data(pixbuf.get_pixels(), pixelFormat, pixbuf.get_width(), pixbuf.get_height(), pixbuf.get_rowstride())
+    return image
+
+
+def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
+    btnImage = create_image(imageFile)
     imgBtn = Clutter.Actor()
     imgBtn.set_id(id)
     imgBtn.set_content(btnImage)
