@@ -74,10 +74,10 @@ stage.set_title("Hello World 7")
 label = cg.create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
-imgBtn1 = cg.create_imagebutton("image1.png", 100, 450, 300, 100, "ibtn1")
+imgBtn1 = cg.create_imagebutton("image1.png", 132, 450, 300, 100, "ibtn1")
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
-imgBtn2 = cg.create_imagebutton("image1.png", 400, 450, 300, 100, "ibtn2")
+imgBtn2 = cg.create_imagebutton("image1.png", 432, 450, 300, 100, "ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 lPos = 0
@@ -92,10 +92,10 @@ stage.add_child(boxv)
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
 boxh = cg.create_listbox_imagebuttons(images, 132,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, id="il1", handle_itemclick=handle_lb_itemclick)
 stage.add_child(boxh)
-boxh = cg.create_listbox_imagebuttons(images, 132,240, 128*6,32, 128,128, Clutter.Orientation.HORIZONTAL, id="il2", handle_itemclick=handle_lb_itemclick)
+boxh = cg.create_listbox_imagebuttons(images, 200,240, 256*2,64, 256,128, Clutter.Orientation.HORIZONTAL, id="il2", handle_itemclick=handle_lb_itemclick)
 stage.add_child(boxh)
 images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
-boxh = cg.create_listbox_imagebuttons(images, 132,284, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = cg.create_listbox_imagebuttons(images, 132,316, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
 stage.add_child(boxh)
 
 
