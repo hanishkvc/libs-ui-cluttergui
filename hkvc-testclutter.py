@@ -78,16 +78,16 @@ def handle_lb_mouse(actor, event):
     #print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
     aID = actor.get_id()
     if event.type == Clutter.EventType.BUTTON_PRESS:
-        gActors[aID]['pressPos'] = (event.x, event.y)
-        gActors[aID]['pressTime'] = event.time
+        gActors[aID]['prevPos'] = (event.x, event.y)
+        gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_STOP
     else:
-        pressPos = gActors[aID]['pressPos']
-        pressTime = gActors[aID]['pressTime']
-        if pressTime != None:
-            if (event.time - pressTime) < GESTURE_DELTATIME:
-                xD = event.x - pressPos[0]
-                yD = event.y - pressPos[1]
+        prevPos = gActors[aID]['prevPos']
+        prevTime = gActors[aID]['prevTime']
+        if prevTime != None:
+            if (event.time - prevTime) < GESTURE_DELTATIME:
+                xD = event.x - prevPos[0]
+                yD = event.y - prevPos[1]
                 if abs(xD) > abs(yD):
                     gActors[aID]['posX'] -= xD
                 else:
@@ -97,12 +97,12 @@ def handle_lb_mouse(actor, event):
                 point.y = gActors[aID]['posY']
                 actor.scroll_to_point(point)
             if event.type == Clutter.EventType.MOTION:
-                gActors[aID]['pressPos'] = (event.x, event.y)
-                gActors[aID]['pressTime'] = event.time
+                gActors[aID]['prevPos'] = (event.x, event.y)
+                gActors[aID]['prevTime'] = event.time
                 return True
         if event.type == Clutter.EventType.BUTTON_RELEASE:
-            gActors[aID]['pressPos'] = None
-            gActors[aID]['pressTime'] = None
+            gActors[aID]['prevPos'] = None
+            gActors[aID]['prevTime'] = None
             return Clutter.EVENT_STOP
 
 
@@ -127,7 +127,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
-    gActors[id] = { 'curIndex': 0, 'pressPos': None, 'pressTime': None, 'posX': 0, 'posY':0 }
+    gActors[id] = { 'curIndex': 0, 'prevPos': None, 'prevTime': None, 'posX': 0, 'posY':0 }
     if handle_mouse != None:
         boxList.connect("button-press-event", handle_mouse)
         boxList.connect("button-release-event", handle_mouse)
