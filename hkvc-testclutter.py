@@ -120,7 +120,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         if handle_itemclick != None:
-            btn.connect("button-press-event", handle_itemclick)
+            btn.connect("button-release-event", handle_itemclick)
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
