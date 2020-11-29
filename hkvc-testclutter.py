@@ -158,6 +158,15 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         boxList.connect("button-press-event", handle_mouse)
         boxList.connect("button-release-event", handle_mouse)
         boxList.connect("motion-event", handle_mouse)
+    ''' Trying to get the actual size accounting for all the children and their sizes. Didnt help.
+        Nor did I get the actual visible size. Need to look at doc/code of clutter later.
+        Maybe from within a paint/draw event, one can get these.
+        Dont see why it is not maintained somewhere by the actor. Or else one will have to use
+        Stage.size - actor.pos for visible size and lastchild.pos+lastchild.size for actual size.
+    print("INFO:CreateListBoxImgBtns:{}:{}:{}:{}:{}".format(boxList.get_size(), boxList.get_clip(),
+                boxList.get_allocation_box().get_size(), boxList.get_content_box().get_size(), boxList.get_preferred_size()))
+                #boxList.get_paint_box()[1].get_size(), boxList.get_content_box().get_size(), boxList.get_transformed_size()))
+    '''
     return boxList
 
 
