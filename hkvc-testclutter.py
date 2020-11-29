@@ -72,9 +72,9 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-GESTURE_MAXTIME = 3000
+GESTURE_DELTATIME = 200
 def handle_lb_mouse(actor, event):
-    print("INFO:LbMouse:{}:{},{}:x,y = {},{}:typ {}:stage {}:flag {}".format(event.time, actor, event, event.x, event.y, event.type, event.stage, event.flags))
+    print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     #print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
     aID = actor.get_id()
     if event.type == Clutter.EventType.BUTTON_PRESS:
@@ -85,7 +85,7 @@ def handle_lb_mouse(actor, event):
         pressPos = gActors[aID]['pressPos']
         pressTime = gActors[aID]['pressTime']
         if pressTime != None:
-            if (event.time - pressTime) < GESTURE_MAXTIME:
+            if (event.time - pressTime) < GESTURE_DELTATIME:
                 xD = event.x - pressPos[0]
                 yD = event.y - pressPos[1]
                 if abs(xD) > abs(yD):
@@ -96,10 +96,11 @@ def handle_lb_mouse(actor, event):
                 point.x = gActors[aID]['posX']
                 point.y = gActors[aID]['posY']
                 actor.scroll_to_point(point)
-        if event.type == Clutter.EventType.MOTION:
-            gActors[aID]['pressPos'] = (event.x, event.y)
-            return True
-        elif event.type == Clutter.EventType.BUTTON_RELEASE:
+            if event.type == Clutter.EventType.MOTION:
+                gActors[aID]['pressPos'] = (event.x, event.y)
+                gActors[aID]['pressTime'] = event.time
+                return True
+        if event.type == Clutter.EventType.BUTTON_RELEASE:
             gActors[aID]['pressPos'] = None
             gActors[aID]['pressTime'] = None
             return Clutter.EVENT_STOP
