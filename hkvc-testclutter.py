@@ -37,7 +37,8 @@ def handle_btn_press(actor, event):
 def handle_key_press(actor, event):
     global lPos, lYRotate
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
-    CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
+    #CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
+    CMDKEY_MODSTATE = (Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
             lPos, lYRotate = cg.animate_list(listBtns, lPos, lYRotate+10)
