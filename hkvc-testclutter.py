@@ -28,13 +28,6 @@ def load_pixbuf(imageFile):
     return pixbuf
 
 
-# Create the stage
-stage = Clutter.Stage()
-stage.set_background_color(Clutter.color_from_string("Black")[1])
-stage.set_size(800,600)
-stage.set_title("Hello World 7")
-
-
 # Widget helpers
 gActors = {}
 
@@ -214,6 +207,15 @@ def handle_key_press(actor, event):
 def handle_destroy(actor):
     print("INFO:destroy:WhyDear-OkOk:{}".format(actor))
     Clutter.main_quit()
+
+
+# Create the stage
+stage = Clutter.Stage()
+stage.set_background_color(Clutter.color_from_string("Black")[1])
+stageBgndImage = create_image("Background.png")
+stage.set_content(stageBgndImage)
+stage.set_size(800,600)
+stage.set_title("Hello World 7")
 
 
 # Create children and connect event handlers
