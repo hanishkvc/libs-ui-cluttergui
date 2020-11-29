@@ -4,7 +4,6 @@
 #
 
 
-'''
 import enum
 # Import Clutter for use
 import gi
@@ -13,7 +12,6 @@ from gi.repository import Clutter
 gi.require_version('GdkPixbuf', '2.0')
 from gi.repository import GdkPixbuf
 from gi.repository import Cogl
-'''
 
 # Initialise
 pathData = "data/"
