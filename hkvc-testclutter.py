@@ -81,17 +81,24 @@ def _handle_lb_mouse(actor, event):
     elif event.type == Clutter.EventType.MOTION:
         prevPos = gActors[aID]['prevPos']
         prevTime = gActors[aID]['prevTime']
+        x = gActors[aID]['posX']
+        y = gActors[aID]['posY']
         if (prevTime != None) and ((event.time - prevTime) < GESTURE_DELTATIME_MS):
             xD = event.x - prevPos[0]
             yD = event.y - prevPos[1]
             if abs(xD) > abs(yD):
-                gActors[aID]['posX'] -= xD
+                x -= xD
             else:
-                gActors[aID]['posY'] -= yD
-            point = Clutter.Point()
-            point.x = gActors[aID]['posX']
-            point.y = gActors[aID]['posY']
-            actor.scroll_to_point(point)
+                y -= yD
+            if (x >= 0) and (y >= 0):
+                point = Clutter.Point()
+                point.x = x
+                point.y = y
+                actor.scroll_to_point(point)
+                gActors[aID]['posX'] = x
+                gActors[aID]['posY'] = y
+            else:
+                print(x,y)
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
             return True
