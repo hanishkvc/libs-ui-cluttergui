@@ -149,10 +149,11 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
-    gActors[id] = { 'curIndex': 0, 'prevPos': None, 'prevTime': None,
-                        'posX': 0, 'posY': 0,
-                        'handle_itemclick': handle_itemclick,
-                        'blur': False }
+    gActors[id] = { 'curIndex': 0,                                  # index to current selection in the listbox
+                        'prevPos': None, 'prevTime': None,          # location and time of mouse wrt last event during scroll
+                        'posX': 0, 'posY': 0,                       # Corresponds to offset wrt Viewport start
+                        'handle_itemclick': handle_itemclick,       # custom handler for handling itemclicks
+                        'blur': False }                             # Tell if blur effect is currently active, for example during scroll beyond boundries
     if handle_mouse != None:
         boxList.connect("button-press-event", handle_mouse)
         boxList.connect("button-release-event", handle_mouse)
@@ -175,11 +176,19 @@ def animate_list(lBtns, lPos, iYRotate=0):
 
 
 AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
-def animate_listbox(lb, lbPos, animOrientation=None, colorizeEffect=None):
+SelectOffsetType = enum.Flag("SelectOffsetType", "START CUR")
+def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientation=None, colorizeEffect=None):
     cnt = lb.get_n_children()
-    lbNxt = (lbPos + 1) % cnt
-    curActor = lb.get_child_at_index(lbPos)
-    nxtActor = lb.get_child_at_index(lbNxt)
+    aID = lb.get_id()
+    curIndex = gActors[aID]['curIndex']
+    if offsetType == SelectOffsetType.CUR:
+        nxtIndex = (curIndex + offset) % cnt
+    elif offsetType == SelectOffsetType.START:
+        nxtIndex = offset % cnt
+    #while nxtIndex < 0:
+    #    nxtIndex = cnt + nxtIndex
+    curActor = lb.get_child_at_index(curIndex)
+    nxtActor = lb.get_child_at_index(nxtIndex)
     curActor.save_easing_state()
     nxtActor.save_easing_state()
     if colorizeEffect != None:
@@ -208,7 +217,7 @@ def animate_listbox(lb, lbPos, animOrientation=None, colorizeEffect=None):
         nxtActor.add_effect(colorizeEffect)
     curActor.restore_easing_state()
     nxtActor.restore_easing_state()
-    return lbNxt
+    gActors[aID]['curIndex'] = nxtIndex
 
 
 # Handle events
@@ -224,14 +233,14 @@ def handle_btn_press(actor, event):
 
 
 def handle_key_press(actor, event):
-    global boxvPos, boxhPos, lPos, lYRotate
+    global lPos, lYRotate
     print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
     CMDKEY_MODSTATE = (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
             lPos, lYRotate = animate_list(listBtns, lPos, lYRotate+10)
-            boxvPos = animate_listbox(boxv, boxvPos)
-            boxhPos = animate_listbox(boxh, boxhPos, colorizeEffect=colorizeEffect1)
+            listbox_select(boxv, 1, SelectOffsetType.CUR)
+            listbox_select(boxh, 1, SelectOffsetType.CUR, colorizeEffect=colorizeEffect1)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -275,18 +284,15 @@ listBtns = [ imgBtn1, imgBtn2 ]
 images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
 boxv = create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL, id="cat", handle_itemclick=handle_lb_itemclick)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
-boxvPos = 0
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
 boxh = create_listbox_imagebuttons(images, 132,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, id="il1", handle_itemclick=handle_lb_itemclick)
-boxhPos = 0
 stage.add_child(boxh)
 boxh = create_listbox_imagebuttons(images, 132,240, 128*6,32, 128,128, Clutter.Orientation.HORIZONTAL, id="il2", handle_itemclick=handle_lb_itemclick)
 stage.add_child(boxh)
 images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
 boxh = create_listbox_imagebuttons(images, 132,284, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
-boxhPos = 0
 stage.add_child(boxh)
 
 
