@@ -31,9 +31,9 @@ def load_pixbuf(imageFile):
 # Widget helpers
 gActors = {}
 blurEffect = Clutter.BlurEffect()
-colorizeEffect = Clutter.ColorizeEffect()
-colorizeEffect.set_tint(Clutter.color_from_pixel(0xA0A0F0FF))
-print(colorizeEffect.get_tint().to_string())
+colorizeEffect1 = Clutter.ColorizeEffect()
+colorizeEffect1.set_tint(Clutter.color_from_pixel(0xE0E0F0FF))
+print(colorizeEffect1.get_tint().to_string())
 
 
 def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
@@ -175,14 +175,15 @@ def animate_list(lBtns, lPos, iYRotate=0):
 
 
 AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
-def animate_listbox(lb, lbPos, animOrientation=None):
+def animate_listbox(lb, lbPos, animOrientation=None, colorizeEffect=None):
     cnt = lb.get_n_children()
     lbNxt = (lbPos + 1) % cnt
     curActor = lb.get_child_at_index(lbPos)
     nxtActor = lb.get_child_at_index(lbNxt)
     curActor.save_easing_state()
     nxtActor.save_easing_state()
-    #curActor.remove_effect(colorizeEffect)
+    if colorizeEffect != None:
+        curActor.remove_effect(colorizeEffect)
     curActor.set_scale(1, 1)
     if (animOrientation == None):
         listOrientation = lb.get_layout_manager().get_orientation()
@@ -203,7 +204,8 @@ def animate_listbox(lb, lbPos, animOrientation=None):
         xScale = 1.1
         yScale = 1.1
     nxtActor.set_scale(xScale, yScale)
-    #nxtActor.add_effect(colorizeEffect)
+    if colorizeEffect != None:
+        nxtActor.add_effect(colorizeEffect)
     curActor.restore_easing_state()
     nxtActor.restore_easing_state()
     return lbNxt
@@ -229,7 +231,7 @@ def handle_key_press(actor, event):
         if (event.keyval == Clutter.KEY_A):
             lPos, lYRotate = animate_list(listBtns, lPos, lYRotate+10)
             boxvPos = animate_listbox(boxv, boxvPos)
-            boxhPos = animate_listbox(boxh, boxhPos)
+            boxhPos = animate_listbox(boxh, boxhPos, colorizeEffect=colorizeEffect1)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -261,7 +263,6 @@ label = create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
 imgBtn1 = create_imagebutton("image1.png", 100, 450, 300, 100, "ibtn1")
-imgBtn1.add_effect(colorizeEffect)
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
 imgBtn2 = create_imagebutton("image1.png", 400, 450, 300, 100, "ibtn2")
