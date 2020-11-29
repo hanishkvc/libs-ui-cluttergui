@@ -96,9 +96,17 @@ def handle_lb_mouse(actor, event):
             gActors[aID]['prevTime'] = event.time
             return True
     elif event.type == Clutter.EventType.BUTTON_RELEASE:
+        print("DBUG:LBMouse:BtnRelease")
         gActors[aID]['prevPos'] = None
         gActors[aID]['prevTime'] = None
         return Clutter.EVENT_STOP
+
+
+def handle_lb_itemclick(actor, event):
+    handle_itemclick = gActors[actor.get_id()]['handle_itemclick']
+    if handle_itemclick != None:
+        handle_itemclick(actor, event)
+    return Clutter.EVENT_PROPAGATE
 
 
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
@@ -120,11 +128,11 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         if handle_itemclick != None:
-            btn.connect("button-release-event", handle_itemclick)
+            btn.connect("button-release-event", handle_lb_itemclick)
         boxList.add_child(btn)
         i += 1
     boxList.set_reactive(True)
-    gActors[id] = { 'curIndex': 0, 'prevPos': None, 'prevTime': None, 'posX': 0, 'posY':0 }
+    gActors[id] = { 'curIndex': 0, 'prevPos': None, 'prevTime': None, 'posX': 0, 'posY': 0, 'handle_itemclick': handle_itemclick }
     if handle_mouse != None:
         boxList.connect("button-press-event", handle_mouse)
         boxList.connect("button-release-event", handle_mouse)
