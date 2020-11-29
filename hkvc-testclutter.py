@@ -72,7 +72,7 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-GESTURE_DELTATIME = 200
+GESTURE_DELTATIME_MS = 500
 def handle_lb_mouse(actor, event):
     print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     #print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
@@ -84,7 +84,7 @@ def handle_lb_mouse(actor, event):
     elif event.type == Clutter.EventType.MOTION:
         prevPos = gActors[aID]['prevPos']
         prevTime = gActors[aID]['prevTime']
-        if (prevTime != None) and ((event.time - prevTime) < GESTURE_DELTATIME):
+        if (prevTime != None) and ((event.time - prevTime) < GESTURE_DELTATIME_MS):
             xD = event.x - prevPos[0]
             yD = event.y - prevPos[1]
             if abs(xD) > abs(yD):
