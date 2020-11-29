@@ -30,7 +30,7 @@ def load_pixbuf(imageFile):
 
 # Create the stage
 stage = Clutter.Stage()
-stage.set_background_color(Clutter.color_from_string("Red")[1])
+stage.set_background_color(Clutter.color_from_string("Black")[1])
 stage.set_size(800,600)
 stage.set_title("Hello World 7")
 
@@ -74,8 +74,7 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
 
 GESTURE_DELTATIME_MS = 500
 def handle_lb_mouse(actor, event):
-    print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
-    #print("\t x,y [{}], btn [{}]".format(Clutter.Event.get_coords(event), Clutter.Event.get_button(event)))
+    #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     aID = actor.get_id()
     if event.type == Clutter.EventType.BUTTON_PRESS:
         gActors[aID]['prevPos'] = (event.x, event.y)
@@ -233,13 +232,13 @@ boxvPos = 0
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
-boxh = create_listbox_imagebuttons(images, 140,100, 128*4,128, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = create_listbox_imagebuttons(images, 132,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
 boxhPos = 0
 stage.add_child(boxh)
-boxh = create_listbox_imagebuttons(images, 140,240, 32*4,32, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = create_listbox_imagebuttons(images, 132,240, 128*6,32, 128,128, Clutter.Orientation.HORIZONTAL)
 stage.add_child(boxh)
 images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
-boxh = create_listbox_imagebuttons(images, 140,300, 128*4,128, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = create_listbox_imagebuttons(images, 132,284, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
 boxhPos = 0
 stage.add_child(boxh)
 
