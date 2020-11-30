@@ -12,10 +12,15 @@ It provides some simple widgets like a Label, ImageButton, ListBox (of image but
 
 It supports scrolling of the listbox and itemclick call back.
 
+Look into the git log -p to get a fair idea of how to use clutter from python, as well as to
+get a decent view of how this code was developed, with all the trials and errors if any inbtw.
+
 TODO:
 
 Moving mouse beyond the ListBox's area will lead to any applied blur effect to persist beyond
 the scroll. One needs to use a timeout logic to clear the blur effect if any applied during
-scroll.
+scroll. [DONE]
+
+Look into Custom Effects and possible issue with cogl.material later.
 
 

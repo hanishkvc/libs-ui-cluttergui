@@ -84,9 +84,9 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
 
 # ListBoxs
 
-LB_CLEANUP_TIMEOUT = 520
+LB_CLEANUP_TIMEOUT = 700
 def _lb_scroll_cleanup(actor):
-    print("lbScrollCleanup:", actor)
+    #print("lbScrollCleanup:", actor)
     aID = actor.get_id()
     if gActors[aID]['blur']:
         actor.remove_effect(blurEffect)
@@ -94,7 +94,7 @@ def _lb_scroll_cleanup(actor):
     return False
 
 
-GESTURE_DELTATIME_MS = 500
+LB_GESTURE_DELTATIME_MS = 500
 def _handle_lb_mouse(actor, event):
     #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     aID = actor.get_id()
@@ -107,7 +107,7 @@ def _handle_lb_mouse(actor, event):
         prevTime = gActors[aID]['prevTime']
         x = gActors[aID]['posX']
         y = gActors[aID]['posY']
-        if (prevTime != None) and ((event.time - prevTime) < GESTURE_DELTATIME_MS):
+        if (prevTime != None) and ((event.time - prevTime) < LB_GESTURE_DELTATIME_MS):
             xD = event.x - prevPos[0]
             yD = event.y - prevPos[1]
             if abs(xD) > abs(yD):
@@ -126,7 +126,6 @@ def _handle_lb_mouse(actor, event):
                 if gActors[aID]['blur'] == False:
                     actor.add_effect(blurEffect)
                     gActors[aID]['blur'] = True
-                    #Clutter.threads_add_timeout(LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
                     Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
