@@ -7,6 +7,7 @@
 import enum
 ## Import Clutter for use
 import gi
+from gi.repository import GLib
 gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 gi.require_version('GdkPixbuf', '2.0')
@@ -83,6 +84,16 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
 
 # ListBoxs
 
+LB_CLEANUP_TIMEOUT = 520
+def _lb_scroll_cleanup(actor):
+    print("lbScrollCleanup:", actor)
+    aID = actor.get_id()
+    if gActors[aID]['blur']:
+        actor.remove_effect(blurEffect)
+        gActors[aID]['blur'] = False
+    return False
+
+
 GESTURE_DELTATIME_MS = 500
 def _handle_lb_mouse(actor, event):
     #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
@@ -115,6 +126,8 @@ def _handle_lb_mouse(actor, event):
                 if gActors[aID]['blur'] == False:
                     actor.add_effect(blurEffect)
                     gActors[aID]['blur'] = True
+                    #Clutter.threads_add_timeout(LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
+                    Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
             return True
