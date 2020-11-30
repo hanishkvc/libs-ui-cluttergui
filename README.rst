@@ -23,4 +23,7 @@ scroll. [DONE]
 
 Look into Custom Effects and possible issue with cogl.material later.
 
+Mouse and Keyboard based scrolling dont play nice with one another properly currently, this
+needs to be fixed later.
+
 

@@ -253,7 +253,7 @@ def animate_list(lBtns, lPos, iYRotate=0):
     lPos += 1
     lPos = lPos % len(lBtns)
     lBtns[lPos].save_easing_state()
-    lBtns[lPos].set_scale(1.2, 1)
+    #lBtns[lPos].set_scale(1.2, 1)
     lBtns[lPos].set_rotation_angle(Clutter.RotateAxis.Y_AXIS, iYRotate)
     lBtns[lPos].restore_easing_state()
     return lPos, iYRotate
