@@ -123,6 +123,7 @@ def _handle_lb_mouse(actor, event):
     aID = actor.get_id()
     orientation = actor.get_layout_manager().get_orientation()
     if event.type == Clutter.EventType.BUTTON_PRESS:
+        print("DBUG:LBMouse:BtnPress")
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_PROPAGATE
@@ -147,16 +148,20 @@ def _handle_lb_mouse(actor, event):
                     gActors[aID]['posX'] = x
                     gActors[aID]['posY'] = y
                 else:
+                    print("DBUG:LBMouse:Motion: Not my scroll")
                     return False
             else:
-                #print("DBUG:LBMouse:Motion:",x,y)
+                print("DBUG:LBMouse:Motion: Scroll already at boundry",x,y)
                 if gActors[aID]['blur'] == False:
                     actor.add_effect(blurEffect)
                     gActors[aID]['blur'] = True
                     Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
+                return False
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
             return True
+        else:
+            print("DBUG:LBMouse:Motion: Stray or Delayed")
     elif event.type == Clutter.EventType.BUTTON_RELEASE:
         print("DBUG:LBMouse:BtnRelease")
         gActors[aID]['prevPos'] = None
@@ -173,6 +178,7 @@ def _handle_lb_itemclick(actor, event):
     So that the event gets propogated further up the actor hierarchy, in this case upto listbox actor.
     Which inturn ensures that scrolling (by dragging items within the listbox) can be handled.
     '''
+    print("lbitemclick")
     handle_itemclick = gActors[actor.get_parent().get_id()]['handle_itemclick']
     if handle_itemclick != None:
         handle_itemclick(actor, event)
