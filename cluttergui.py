@@ -176,7 +176,8 @@ def _handle_lb_itemclick(actor, event):
 
 
 LB_SELSCALE_PERCENT = 0.1
-def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listbox", pad=1, handle_mouse=_handle_lb_mouse):
+def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listbox", pad=1,
+        handle_mouse=_handle_lb_mouse, handle_itemclick=None):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxLayout.set_spacing(pad)
@@ -204,8 +205,13 @@ def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HOR
 
 
 def listbox_append_child(boxList, childSizeX, childSizeY, childActor, handle_itemclick=None):
+    '''
+    NOTE: The handle_itemclick passed here should be same as that passed to create_listbox.
+    TODO: Verify handle_itemclick passed here matchs one passed to create_listbox.
+    TODOAlt: Support seperate handle_itemclick for each individual child.
+    '''
     sizeX, sizeY = boxList.get_size()
-    orientation = boxList.get_orientation()
+    orientation = boxList.get_layout_manager().get_orientation()
     if orientation == Clutter.Orientation.HORIZONTAL:
         childActor.set_margin_bottom(sizeY*LB_SELSCALE_PERCENT)
     elif orientation == Clutter.Orientation.VERTICAL:
@@ -217,7 +223,7 @@ def listbox_append_child(boxList, childSizeX, childSizeY, childActor, handle_ite
 
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
         orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
-    listBox = create_listbox(posX, posY, sizeX, sizeY, orientation, id, pad, handle_mouse)
+    listBox = create_listbox(posX, posY, sizeX, sizeY, orientation, id, pad, handle_mouse, handle_itemclick)
     i = 0
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, IGNORE, IGNORE, btnSizeX, btnSizeY, "{}.{}".format(id, i))
