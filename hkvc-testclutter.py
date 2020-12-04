@@ -89,9 +89,9 @@ boxv = cg.create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.O
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 stage.add_child(boxv)
 
-LBsINLB = False
+LBsINLB = True
 if LBsINLB:
-    lbVert = cg.create_listbox(150, 100, 650, 400, Clutter.Orientation.VERTICAL, iD="contMain", pad=20)
+    lbVert = cg.create_listbox(150, 100, 128*6, 400, Clutter.Orientation.VERTICAL, iD="contMain", pad=20)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
 boxh = cg.create_listbox_imagebuttons(images, 150,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, iD="il1", handle_itemclick=handle_lb_itemclick)
@@ -105,7 +105,7 @@ if LBsINLB:
 else:
     stage.add_child(boxh)
 images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
-boxh = cg.create_listbox_imagebuttons(images, 150,316, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
+boxh = cg.create_listbox_imagebuttons(images, 150,316, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, iD="il3")
 if LBsINLB:
     cg.listbox_append_child(lbVert, 128*6,128, boxh)
 else:
