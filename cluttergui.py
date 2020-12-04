@@ -125,7 +125,7 @@ def _handle_lb_mouse(actor, event):
     if event.type == Clutter.EventType.BUTTON_PRESS:
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
-        return Clutter.EVENT_STOP
+        return Clutter.EVENT_PROPAGATE
     elif event.type == Clutter.EventType.MOTION:
         prevPos = gActors[aID]['prevPos']
         prevTime = gActors[aID]['prevTime']
@@ -164,7 +164,7 @@ def _handle_lb_mouse(actor, event):
         if gActors[aID]['blur']:
             actor.remove_effect(blurEffect)
             gActors[aID]['blur'] = False
-        return Clutter.EVENT_STOP
+        return Clutter.EVENT_PROPAGATE
 
 
 def _handle_lb_itemclick(actor, event):
