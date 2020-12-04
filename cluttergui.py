@@ -164,6 +164,11 @@ def _handle_lb_mouse(actor, event):
 
 
 def _handle_lb_itemclick(actor, event):
+    '''
+    This is a indirection to button press handling of listbox items,
+    So that the event gets propogated further up the actor hierarchy, in this case upto listbox actor.
+    Which inturn ensures that scrolling (by dragging items within the listbox) can be handled.
+    '''
     handle_itemclick = gActors[actor.get_parent().get_id()]['handle_itemclick']
     if handle_itemclick != None:
         handle_itemclick(actor, event)
@@ -171,8 +176,7 @@ def _handle_lb_itemclick(actor, event):
 
 
 LB_SELSCALE_PERCENT = 0.1
-def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
-        orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
+def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listbox", pad=1, handle_mouse=_handle_lb_mouse):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
     boxLayout.set_spacing(pad)
@@ -186,17 +190,6 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     boxList.set_id(id)
     boxList.set_position(posX, posY)
     boxList.set_size(sizeX, sizeY)
-    i = 0
-    for imageFile in imageFiles:
-        btn = create_imagebutton(imageFile, IGNORE, IGNORE, btnSizeX, btnSizeY, "{}.{}".format(id, i))
-        if orientation == Clutter.Orientation.HORIZONTAL:
-            btn.set_margin_bottom(sizeY*LB_SELSCALE_PERCENT)
-        elif orientation == Clutter.Orientation.VERTICAL:
-            btn.set_margin_right(sizeX*LB_SELSCALE_PERCENT)
-        if handle_itemclick != None:
-            btn.connect("button-release-event", _handle_lb_itemclick)
-        boxList.add_child(btn)
-        i += 1
     boxList.set_reactive(True)
     gActors[id] = { 'curIndex': 0,                                  # index to current selection in the listbox
                         'prevPos': None, 'prevTime': None,          # location and time of mouse wrt last event during scroll
@@ -207,16 +200,30 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
         boxList.connect("button-press-event", handle_mouse)
         boxList.connect("button-release-event", handle_mouse)
         boxList.connect("motion-event", handle_mouse)
-    ''' Trying to get the actual size accounting for all the children and their sizes. Didnt help.
-        Nor did I get the actual visible size. Need to look at doc/code of clutter later.
-        Maybe from within a paint/draw event, one can get these.
-        Dont see why it is not maintained somewhere by the actor. Or else one will have to use
-        Stage.size - actor.pos for visible size and lastchild.pos+lastchild.size for actual size.
-    print("INFO:CreateListBoxImgBtns:{}:{}:{}:{}:{}".format(boxList.get_size(), boxList.get_clip(),
-                boxList.get_allocation_box().get_size(), boxList.get_content_box().get_size(), boxList.get_preferred_size()))
-                #boxList.get_paint_box()[1].get_size(), boxList.get_content_box().get_size(), boxList.get_transformed_size()))
-    '''
     return boxList
+
+
+def listbox_append_child(boxList, childSizeX, childSizeY, childActor, handle_itemclick=None):
+    sizeX, sizeY = boxList.get_size()
+    orientation = boxList.get_orientation()
+    if orientation == Clutter.Orientation.HORIZONTAL:
+        childActor.set_margin_bottom(sizeY*LB_SELSCALE_PERCENT)
+    elif orientation == Clutter.Orientation.VERTICAL:
+        childActor.set_margin_right(sizeX*LB_SELSCALE_PERCENT)
+    if handle_itemclick != None:
+        childActor.connect("button-release-event", _handle_lb_itemclick)
+    boxList.add_child(childActor)
+
+
+def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
+        orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
+    listBox = create_listbox(posX, posY, sizeX, sizeY, orientation, id, pad, handle_mouse)
+    i = 0
+    for imageFile in imageFiles:
+        btn = create_imagebutton(imageFile, IGNORE, IGNORE, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        listbox_append_child(listBox, btnSizeX, btnSizeY, btn, handle_itemclick)
+        i += 1
+    return listBox
 
 
 AnimOrientation = enum.Flag("AnimOrientation", "BOTH HORIZONTAL VERTICAL")
