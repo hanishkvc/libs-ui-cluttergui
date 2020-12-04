@@ -36,11 +36,11 @@ def load_pixbuf(imageFile):
 
 gActors = {}
 blurEffect = Clutter.BlurEffect()
-
+IGNORE=-99
 
 # Labels
 
-def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
+def create_label(text, posX, posY, sizeX=IGNORE, sizeY=IGNORE, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
     label = Clutter.Text()
     label.set_id(id)
     label.set_text(text)
@@ -59,7 +59,7 @@ def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f
     label.set_anchor_point(20,20)
     '''
     label.set_position(posX, posY)
-    if (sizeX != -1) and (sizeY != -1):
+    if (sizeX != IGNORE) and (sizeY != IGNORE):
         label.set_size(sizeX, sizeY)
     return label
 
@@ -85,9 +85,9 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     imgBtn.set_content(btnImage)
     imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
     imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
-    if (posX != -1) and (posY != -1):
+    if (posX != IGNORE) and (posY != IGNORE):
         imgBtn.set_position(posX, posY)
-    if (sizeX != -1) and (sizeY != -1):
+    if (sizeX != IGNORE) and (sizeY != IGNORE):
         imgBtn.set_size(sizeX, sizeY)
     imgBtn.set_reactive(True)
     return imgBtn
@@ -187,7 +187,7 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     boxList.set_size(sizeX, sizeY)
     i = 0
     for imageFile in imageFiles:
-        btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        btn = create_imagebutton(imageFile, IGNORE, IGNORE, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         if orientation == Clutter.Orientation.HORIZONTAL:
             btn.set_margin_bottom(sizeY*LB_SELSCALE_PERCENT)
         elif orientation == Clutter.Orientation.VERTICAL:
