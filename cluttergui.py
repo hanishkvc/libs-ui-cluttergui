@@ -82,6 +82,17 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
+def create_button(posX, posY, sizeX, sizeY, imageFile=None, text=None, id="button",
+                    textColor=0xf0f0f0ff, textBackgroundColor=0x404040ff, textFont="Mono 28"):
+    if imageFile != None:
+        btn = create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id)
+    elif text != None:
+        btn = create_label(text, posX, posY, sizeX, sizeY, id, textColor, textBackgroundColor, textFont)
+    btn.set_content_gravity(Clutter.Gravity.CENTER)
+    btn.set_reactive(True)
+    return btn
+
+
 # ListBoxs
 
 LB_CLEANUP_TIMEOUT = 700

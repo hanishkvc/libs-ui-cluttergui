@@ -74,10 +74,10 @@ stage.set_title("Hello World 7")
 label = cg.create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
-imgBtn1 = cg.create_imagebutton("image1.png", 132, 450, 300, 100, "ibtn1")
+imgBtn1 = cg.create_button(132, 450, 300, 100, imageFile="image1.png", id="ibtn1")
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
-imgBtn2 = cg.create_imagebutton("image1.png", 432, 450, 300, 100, "ibtn2")
+imgBtn2 = cg.create_button(432, 450, 300, 100, text="Image2", id="ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 lPos = 0
