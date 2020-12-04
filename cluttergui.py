@@ -158,6 +158,7 @@ def _handle_lb_itemclick(actor, event):
     return Clutter.EVENT_PROPAGATE
 
 
+LB_SELSCALE_PERCENT = 0.1
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
         orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
     boxLayout = Clutter.BoxLayout()
@@ -177,9 +178,9 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
         if orientation == Clutter.Orientation.HORIZONTAL:
-            btn.set_margin_bottom(20)
+            btn.set_margin_bottom(sizeY*LB_SELSCALE_PERCENT)
         elif orientation == Clutter.Orientation.VERTICAL:
-            btn.set_margin_right(20)
+            btn.set_margin_right(sizeX*LB_SELSCALE_PERCENT)
         if handle_itemclick != None:
             btn.connect("button-release-event", _handle_lb_itemclick)
         boxList.add_child(btn)
@@ -243,14 +244,14 @@ def listbox_select(lb, offset, offsetType=SelectOffsetType.START, animOrientatio
             print("WARN:animate_listbox:Unknown listbox Orientation")
             animOrientation = AnimOrientation.BOTH
     if (animOrientation == AnimOrientation.HORIZONTAL):
-        xScale = 1.1
+        xScale = 1 + LB_SELSCALE_PERCENT
         yScale = 1
     elif (animOrientation == AnimOrientation.VERTICAL):
         xScale = 1
-        yScale = 1.1
+        yScale = 1 + LB_SELSCALE_PERCENT
     else:
-        xScale = 1.1
-        yScale = 1.1
+        xScale = 1 + LB_SELSCALE_PERCENT
+        yScale = 1 + LB_SELSCALE_PERCENT
     nxtActor.set_scale(xScale, yScale)
     if colorizeEffect != None:
         nxtActor.add_effect(colorizeEffect)
