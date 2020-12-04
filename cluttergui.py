@@ -176,6 +176,10 @@ def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, 
     i = 0
     for imageFile in imageFiles:
         btn = create_imagebutton(imageFile, -1, -1, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        if orientation == Clutter.Orientation.HORIZONTAL:
+            btn.set_margin_bottom(20)
+        elif orientation == Clutter.Orientation.VERTICAL:
+            btn.set_margin_right(20)
         if handle_itemclick != None:
             btn.connect("button-release-event", _handle_lb_itemclick)
         boxList.add_child(btn)
