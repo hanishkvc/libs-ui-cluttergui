@@ -12,7 +12,7 @@ gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 gi.require_version('GdkPixbuf', '2.0')
 from gi.repository import GdkPixbuf
-from gi.repository import Cogl
+from gi.repository import Pango, Cogl
 
 
 ## Initialise
@@ -47,6 +47,17 @@ def create_label(text, posX, posY, sizeX=-1, sizeY=-1, id="label", color=0xf0f0f
     label.set_background_color(Clutter.color_from_pixel(backgroundColor))
     label.set_color(Clutter.color_from_pixel(color))
     label.set_font_name(font)
+    '''
+    x = label.get_layout()
+    x.set_alignment(Pango.Alignment.CENTER)
+    print(x.get_alignment(), x.get_text())
+    x.set_spacing(50)
+    x.set_justify(True)
+    label.set_content_gravity(Clutter.Gravity.CENTER)
+    label.set_line_alignment(Pango.Alignment.CENTER)
+    label.set_justify(True)
+    label.set_anchor_point(20,20)
+    '''
     label.set_position(posX, posY)
     if (sizeX != -1) and (sizeY != -1):
         label.set_size(sizeX, sizeY)
