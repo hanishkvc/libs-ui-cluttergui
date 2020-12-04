@@ -40,9 +40,9 @@ IGNORE=-99
 
 # Labels
 
-def create_label(text, posX, posY, sizeX=IGNORE, sizeY=IGNORE, id="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
+def create_label(text, posX, posY, sizeX=IGNORE, sizeY=IGNORE, iD="label", color=0xf0f0f0ff, backgroundColor=0x404040ff, font="Mono 32"):
     label = Clutter.Text()
-    label.set_id(id)
+    label.set_id(iD)
     label.set_text(text)
     label.set_background_color(Clutter.color_from_pixel(backgroundColor))
     label.set_color(Clutter.color_from_pixel(color))
@@ -79,10 +79,10 @@ def create_image(imageFile):
 
 # Buttons
 
-def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
+def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, iD="imagebutton"):
     btnImage = create_image(imageFile)
     imgBtn = Clutter.Actor()
-    imgBtn.set_id(id)
+    imgBtn.set_id(iD)
     imgBtn.set_content(btnImage)
     imgBtn.set_content_scaling_filters(Clutter.ScalingFilter.LINEAR, Clutter.ScalingFilter.LINEAR)
     imgBtn.set_content_gravity(Clutter.Gravity.CENTER)
@@ -94,12 +94,12 @@ def create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id="imagebutton"):
     return imgBtn
 
 
-def create_button(posX, posY, sizeX, sizeY, imageFile=None, text=None, id="button",
+def create_button(posX, posY, sizeX, sizeY, imageFile=None, text=None, iD="button",
                     textColor=0xf0f0f0ff, textBackgroundColor=0x404040ff, textFont="Mono 28"):
     if imageFile != None:
-        btn = create_imagebutton(imageFile, posX, posY, sizeX, sizeY, id)
+        btn = create_imagebutton(imageFile, posX, posY, sizeX, sizeY, iD)
     elif text != None:
-        btn = create_label(text, posX, posY, sizeX, sizeY, id, textColor, textBackgroundColor, textFont)
+        btn = create_label(text, posX, posY, sizeX, sizeY, iD, textColor, textBackgroundColor, textFont)
     btn.set_content_gravity(Clutter.Gravity.CENTER)
     btn.set_reactive(True)
     return btn
@@ -176,7 +176,7 @@ def _handle_lb_itemclick(actor, event):
 
 
 LB_SELSCALE_PERCENT = 0.1
-def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HORIZONTAL, id="listbox", pad=1,
+def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HORIZONTAL, iD="listbox", pad=1,
         handle_mouse=_handle_lb_mouse, handle_itemclick=None):
     boxLayout = Clutter.BoxLayout()
     boxLayout.set_orientation(orientation)
@@ -188,11 +188,11 @@ def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HOR
         boxList.set_scroll_mode(Clutter.ScrollMode.VERTICALLY)
     #boxList = Clutter.Actor()
     boxList.set_layout_manager(boxLayout)
-    boxList.set_id(id)
+    boxList.set_id(iD)
     boxList.set_position(posX, posY)
     boxList.set_size(sizeX, sizeY)
     boxList.set_reactive(True)
-    gActors[id] = { 'curIndex': 0,                                  # index to current selection in the listbox
+    gActors[iD] = { 'curIndex': 0,                                  # index to current selection in the listbox
                         'prevPos': None, 'prevTime': None,          # location and time of mouse wrt last event during scroll
                         'posX': 0, 'posY': 0,                       # Corresponds to offset wrt Viewport start
                         'handle_itemclick': handle_itemclick,       # custom handler for handling itemclicks
@@ -222,11 +222,11 @@ def listbox_append_child(boxList, childSizeX, childSizeY, childActor, handle_ite
 
 
 def create_listbox_imagebuttons(imageFiles, posX, posY, sizeX, sizeY, btnSizeX, btnSizeY,
-        orientation=Clutter.Orientation.HORIZONTAL, id="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
-    listBox = create_listbox(posX, posY, sizeX, sizeY, orientation, id, pad, handle_mouse, handle_itemclick)
+        orientation=Clutter.Orientation.HORIZONTAL, iD="listboximagebuttons", pad=1, handle_mouse=_handle_lb_mouse, handle_itemclick=None):
+    listBox = create_listbox(posX, posY, sizeX, sizeY, orientation, iD, pad, handle_mouse, handle_itemclick)
     i = 0
     for imageFile in imageFiles:
-        btn = create_imagebutton(imageFile, IGNORE, IGNORE, btnSizeX, btnSizeY, "{}.{}".format(id, i))
+        btn = create_imagebutton(imageFile, IGNORE, IGNORE, btnSizeX, btnSizeY, "{}.{}".format(iD, i))
         listbox_append_child(listBox, btnSizeX, btnSizeY, btn, handle_itemclick)
         i += 1
     return listBox

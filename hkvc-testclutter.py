@@ -74,10 +74,10 @@ stage.set_title("Hello World 7")
 label = cg.create_label("Hello again 007", 400, 20)
 stage.add_child(label)
 
-imgBtn1 = cg.create_button(132, 450, 300, 100, imageFile="image1.png", id="ibtn1")
+imgBtn1 = cg.create_button(132, 450, 300, 100, imageFile="image1.png", iD="ibtn1")
 stage.add_child(imgBtn1)
 imgBtn1.connect("button-press-event", handle_btn_press)
-imgBtn2 = cg.create_button(432, 450, 300, 100, text="Image2", id="ibtn2")
+imgBtn2 = cg.create_button(432, 450, 300, 100, text="Image2", iD="ibtn2")
 stage.add_child(imgBtn2)
 imgBtn2.connect("button-press-event", handle_btn_press)
 lPos = 0
@@ -85,14 +85,14 @@ lYRotate = 0
 listBtns = [ imgBtn1, imgBtn2 ]
 
 images = [ "Cat1.png", "Cat2.png", "Cat3.png", "Cat4.png" ]
-boxv = cg.create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL, id="cat", handle_itemclick=handle_lb_itemclick)
+boxv = cg.create_listbox_imagebuttons(images, 2,2, 128,128*4, 128,128, Clutter.Orientation.VERTICAL, iD="cat", handle_itemclick=handle_lb_itemclick)
 boxv.set_rotation_angle(Clutter.RotateAxis.Y_AXIS, 40)
 stage.add_child(boxv)
 # Overwriting/Reusing the boxh below, so only the last listbox will be animated
 images = [ "Item1.png", "Item2.png", "Item3.png", "Item4.png", "Item5.png", "Item6.png", "Item7.png" ]
-boxh = cg.create_listbox_imagebuttons(images, 150,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, id="il1", handle_itemclick=handle_lb_itemclick)
+boxh = cg.create_listbox_imagebuttons(images, 150,100, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL, iD="il1", handle_itemclick=handle_lb_itemclick)
 stage.add_child(boxh)
-boxh = cg.create_listbox_imagebuttons(images, 200,240, 256*2,64, 256,128, Clutter.Orientation.HORIZONTAL, id="il2", handle_itemclick=handle_lb_itemclick)
+boxh = cg.create_listbox_imagebuttons(images, 200,240, 256*2,64, 256,128, Clutter.Orientation.HORIZONTAL, iD="il2", handle_itemclick=handle_lb_itemclick)
 stage.add_child(boxh)
 images = [ "Item11.png", "Item12.png", "Item13.png", "Item14.png", "Item15.png", "Item16.png", "Item17.png" ]
 boxh = cg.create_listbox_imagebuttons(images, 150,316, 128*6,128, 128,128, Clutter.Orientation.HORIZONTAL)
