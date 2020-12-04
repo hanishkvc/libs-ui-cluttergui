@@ -121,6 +121,7 @@ LB_GESTURE_DELTATIME_MS = 500
 def _handle_lb_mouse(actor, event):
     #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     aID = actor.get_id()
+    orientation = actor.get_layout_manager().get_orientation()
     if event.type == Clutter.EventType.BUTTON_PRESS:
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
@@ -138,12 +139,15 @@ def _handle_lb_mouse(actor, event):
             else:
                 y -= yD
             if (x >= 0) and (y >= 0):
-                point = Clutter.Point()
-                point.x = x
-                point.y = y
-                actor.scroll_to_point(point)
-                gActors[aID]['posX'] = x
-                gActors[aID]['posY'] = y
+                if ((orientation == Clutter.Orientation.HORIZONTAL) and (x > 0)) or ((orientation == Clutter.Orientation.VERTICAL) and (y > 0)):
+                    point = Clutter.Point()
+                    point.x = x
+                    point.y = y
+                    actor.scroll_to_point(point)
+                    gActors[aID]['posX'] = x
+                    gActors[aID]['posY'] = y
+                else:
+                    return False
             else:
                 #print("DBUG:LBMouse:Motion:",x,y)
                 if gActors[aID]['blur'] == False:
