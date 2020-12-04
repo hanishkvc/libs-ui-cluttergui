@@ -151,11 +151,12 @@ def _handle_lb_mouse(actor, event):
                     print("DBUG:LBMouse:Motion: Not my scroll")
                     return False
             else:
-                print("DBUG:LBMouse:Motion: Scroll already at boundry",x,y)
-                if gActors[aID]['blur'] == False:
-                    actor.add_effect(blurEffect)
-                    gActors[aID]['blur'] = True
-                    Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
+                if ((orientation == Clutter.Orientation.HORIZONTAL) and (x < 0)) or ((orientation == Clutter.Orientation.VERTICAL) and (y < 0)):
+                    print("DBUG:LBMouse:Motion: Scroll already at boundry",x,y)
+                    if gActors[aID]['blur'] == False:
+                        actor.add_effect(blurEffect)
+                        gActors[aID]['blur'] = True
+                        Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
                 return False
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
