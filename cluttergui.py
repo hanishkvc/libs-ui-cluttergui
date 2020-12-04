@@ -58,7 +58,8 @@ def create_label(text, posX, posY, sizeX=IGNORE, sizeY=IGNORE, id="label", color
     label.set_justify(True)
     label.set_anchor_point(20,20)
     '''
-    label.set_position(posX, posY)
+    if (posX != IGNORE) and (posY != IGNORE):
+        label.set_position(posX, posY)
     if (sizeX != IGNORE) and (sizeY != IGNORE):
         label.set_size(sizeX, sizeY)
     return label
