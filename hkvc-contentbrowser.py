@@ -55,21 +55,40 @@ def handle_lb_itemclick(actor, event):
 # Load data
 
 '''
+UI Template file will contain One or more of
+
 LISTBOX_BEGIN
-    TAG "my_tag"
-    GUI "gui_id"
+    ID gui_id
     X x
     Y y
     W w
     H h
+    IW w
+    IH h
     ORIENTATION horizontal|vertical
-
-    ITEM "image_file" "T:dest_tag"|"C:content_file"
-    ITEM "image_file" "T:dest_tag"|"C:content_file"
-
 LISTBOX_END
 
+
+Content metadata files will contain
+
 CAT_BEGIN
+    TAG "mytag"
+
+    GROUP_BEGIN
+        GUI "gui_id"
+        ITEM "image_file" "T:dest_tag"|"CD:content_file"|"CM:metadata_file"
+        ITEM "image_file" "T:dest_tag"|"CD:content_file"|"CM:metadata_file"
+        ...
+    GROUP_END
+
+    GROUP_BEGIN
+        GUI "gui_id"
+        ITEM "image_file" "T:dest_tag"|"CD:content_file"|"CM:metadata_file"
+        ITEM "image_file" "T:dest_tag"|"CD:content_file"|"CM:metadata_file"
+        ...
+    GROUP_END
+
+    ...
 
 CAT_END
 
