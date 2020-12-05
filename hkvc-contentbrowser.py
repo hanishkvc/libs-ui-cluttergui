@@ -191,6 +191,9 @@ def load_contentmeta(sFile):
             btn = cg.create_imagebutton(img, cg.IGNORE, cg.IGNORE, gGUIData[aID]['IW'], gGUIData[aID]['IH'], "{}.{}".format(aID, len(lData)))
             cg.listbox_append_child(gGUI[aID], gGUIData[aID]['IW'], gGUIData[aID]['IH'], btn, gGUIData[aID]['ITEMHANDLER'])
             lData.append(target)
+    if aID != None:
+        gData[aID] = lData
+    print(sFile, gData)
 
 
 
