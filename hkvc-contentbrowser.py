@@ -33,9 +33,8 @@ def handle_key_press(actor, event):
     CMDKEY_MODSTATE = (Clutter.ModifierType.CONTROL_MASK)
     if ((event.modifier_state & CMDKEY_MODSTATE) == CMDKEY_MODSTATE):
         if (event.keyval == Clutter.KEY_A):
-            lPos, lYRotate = cg.animate_list(listBtns, lPos, lYRotate+10)
-            cg.listbox_select(boxv, 1, cg.SelectOffsetType.CUR)
-            cg.listbox_select(boxh, 1, cg.SelectOffsetType.CUR, colorizeEffect=colorizeEffect1)
+            cg.listbox_select(gGUI['LBCAT'], 1, cg.SelectOffsetType.CUR)
+            cg.listbox_select(gGUI['LBG1'], 1, cg.SelectOffsetType.CUR, colorizeEffect=colorizeEffect1)
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()

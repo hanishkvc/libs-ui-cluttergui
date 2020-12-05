@@ -2,8 +2,8 @@
 LISTBOX_BEGIN
     T:ID lbCat
     T:PID None
-    I:X  8
-    I:Y  100
+    I:X  16
+    I:Y  32
     I:W  128
     I:H  600
     I:IW 128
@@ -18,7 +18,7 @@ LISTBOX_BEGIN
     T:PID None
     I:X  150
     I:Y  100
-    I:W  600
+    I:W  700
     I:H  600
     I:IW 128
     I:IH 128
@@ -32,7 +32,7 @@ LISTBOX_BEGIN
     T:PID lbVert
     I:X  0
     I:Y  0
-    I:W  600
+    I:W  700
     I:H  128
     I:IW 128
     I:IH 128
@@ -46,7 +46,7 @@ LISTBOX_BEGIN
     T:PID lbVert
     I:X  0
     I:Y  0
-    I:W  600
+    I:W  700
     I:H  128
     I:IW 128
     I:IH 128
