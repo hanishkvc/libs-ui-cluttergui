@@ -193,7 +193,8 @@ def load_contentmeta(sFile):
 
 
 # Get ready to start
-setup_ui(sys.argv[1])
+#setup_ui(sys.argv[1])
+gGUIData['LBCAT'] = { 'IW': 128, 'IH': 128 }
 load_contentmeta(sys.argv[2])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
