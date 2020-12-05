@@ -4,6 +4,7 @@
 #
 
 
+import sys
 import enum
 import gi
 gi.require_version('Clutter', '1.0')
@@ -112,18 +113,18 @@ stage.set_size(800,600)
 stage.set_title("Content Browser")
 
 # Create category listbox
-lbCat = cg.create_listbox(0,100, 128,500, Clutter.ORIENTATION.VERTICAL, id="lbCat", handle_itemclick=handle_lb_itemclick)
+lbCat = cg.create_listbox(0,100, 128,500, Clutter.Orientation.VERTICAL, iD="lbCat", handle_itemclick=handle_lb_itemclick)
 stage.add_child(lbCat)
-gGUI['lbCat'] = lbCat
+gGUI['LBCAT'] = lbCat
 
 # Create content groups related listboxes
 lbVert = cg.create_listbox(150,100, 600,500, Clutter.Orientation.VERTICAL, iD="lbVert", pad=20)
-lbG1 = cg.create_listbox(0,0, 600,128, 128,128, Clutter.Orientation.HORIZONTAL, iD="lbG1", handle_itemclick=handle_lb_itemclick)
+lbG1 = cg.create_listbox(0,0, 600,128, Clutter.Orientation.HORIZONTAL, iD="lbG1", handle_itemclick=handle_lb_itemclick)
 cg.listbox_append_child(lbVert, 600,128, lbG1)
-gGUI['lbG1'] = lbG1
-lbG2 = cg.create_listbox(0,0, 600,128, 128,128, Clutter.Orientation.HORIZONTAL, iD="lbG2", handle_itemclick=handle_lb_itemclick)
+gGUI['LBG1'] = lbG1
+lbG2 = cg.create_listbox(0,0, 600,128, Clutter.Orientation.HORIZONTAL, iD="lbG2", handle_itemclick=handle_lb_itemclick)
 cg.listbox_append_child(lbVert, 600,128, lbG2)
-gGUI['lbG2'] = lbG2
+gGUI['LBG2'] = lbG2
 stage.add_child(lbVert)
 
 # setup ui
@@ -131,19 +132,20 @@ def setup_ui(sFile):
     f = open(sFile)
     for l in f:
         l = l.strip().upper()
+        print(l)
         if l == "LISTBOX_BEGIN":
             tLB = {}
         elif l.startswith("I"):
             tag = l.split(' ')[0].split(':')[1]
-            val = int(l.split(' ')[1].strip())
+            val = int(l.split(' ',1)[1].strip())
             tLB[tag] = val
         elif l.startswith("T"):
             tag = l.split(' ')[0].split(':')[1]
-            val = l.split(' ')[1].strip()
+            val = l.split(' ',1)[1].strip()
             tLB[tag] = val
         elif l.startswith("S:ORIENTATION"):
             tag = l.split(' ')[0].split(':')[1]
-            val = l.split(' ')[1].strip()
+            val = l.split(' ',1)[1].strip()
             if val == "HORIZONTAL":
                 tLB[tag] = Clutter.Orientation.HORIZONTAL
             else:
