@@ -1,0 +1,13 @@
+
+LISTBOX_BEGIN
+    T:ID lbCat
+    I:X  100
+    I:Y  100
+    I:W  100
+    I:H  600
+    I:PAD 2
+    S:ORIENTATION VERTICAL
+LISTBOX_END
+
+// vim:sts=4:sw=4:expandtab
+
