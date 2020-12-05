@@ -5,24 +5,24 @@
 
 
 import enum
-# Import Clutter for use
 import gi
 gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 import cluttergui as cg
 
 
-# Initialise
+#### Initialise
+
+
 Clutter.init()
 
-
-# required things
+# some required things
 colorizeEffect1 = Clutter.ColorizeEffect()
 colorizeEffect1.set_tint(Clutter.color_from_pixel(0xE0E0F0FF))
 print(colorizeEffect1.get_tint().to_string())
 
 
-# Handle events
+#### Handle events
 
 
 def handle_key_press(actor, event):
@@ -52,20 +52,22 @@ def handle_lb_itemclick(actor, event):
     return Clutter.EVENT_STOP
 
 
-# Load data
+#### Load Things
+
 
 '''
 UI Template file will contain One or more of
 
 LISTBOX_BEGIN
-    ID gui_id
-    X x
-    Y y
-    W w
-    H h
-    IW w
-    IH h
-    ORIENTATION horizontal|vertical
+    T:ID gui_id
+    I:X x
+    I:Y y
+    I:W w
+    I:H h
+    I:IW w
+    I:IH h
+    I:PAD pad_size
+    S:ORIENTATION horizontal|vertical
 LISTBOX_END
 
 
@@ -94,10 +96,11 @@ CAT_END
 
 '''
 
-gGUI = {}
 
-def load_lb(sFile):
-    f = open(sFile)
+## UI
+
+
+gGUI = {}
 
 
 # Create the stage
@@ -108,13 +111,12 @@ stage.set_content(stageBgndImage)
 stage.set_size(800,600)
 stage.set_title("Content Browser")
 
-
-# Create children and connect event handlers
-
+# Create category listbox
 lbCat = cg.create_listbox(0,100, 128,500, Clutter.ORIENTATION.VERTICAL, id="lbCat", handle_itemclick=handle_lb_itemclick)
 stage.add_child(lbCat)
 gGUI['lbCat'] = lbCat
 
+# Create content groups related listboxes
 lbVert = cg.create_listbox(150,100, 600,500, Clutter.Orientation.VERTICAL, iD="lbVert", pad=20)
 lbG1 = cg.create_listbox(0,0, 600,128, 128,128, Clutter.Orientation.HORIZONTAL, iD="lbG1", handle_itemclick=handle_lb_itemclick)
 cg.listbox_append_child(lbVert, 600,128, lbG1)
@@ -124,8 +126,39 @@ cg.listbox_append_child(lbVert, 600,128, lbG2)
 gGUI['lbG2'] = lbG2
 stage.add_child(lbVert)
 
+# setup ui
+def setup_ui(sFile):
+    f = open(sFile)
+    for l in f:
+        l = l.strip().upper()
+        if l == "LISTBOX_BEGIN":
+            tLB = {}
+        elif l.startswith("I"):
+            tag = l.split(' ')[0].split(':')[1]
+            val = int(l.split(' ')[1].strip())
+            tLB[tag] = val
+        elif l.startswith("T"):
+            tag = l.split(' ')[0].split(':')[1]
+            val = l.split(' ')[1].strip()
+            tLB[tag] = val
+        elif l.startswith("S:ORIENTATION"):
+            tag = l.split(' ')[0].split(':')[1]
+            val = l.split(' ')[1].strip()
+            if val == "HORIZONTAL":
+                tLB[tag] = Clutter.Orientation.HORIZONTAL
+            else:
+                tLB[tag] = Clutter.Orientation.VERTICAL
+        elif l == "LISTBOX_END":
+            actor = gGUI[tLB['ID']]
+            actor.set_position(tLB['X'], tLB['Y'])
+            actor.set_size(tLB['W'], tLB['H'])
+            actor.get_layout_manager().set_orientation(tLB['ORIENTATION'])
+            actor.get_layout_manager().set_spacing(tLB['PAD'])
+    f.close()
+
 
 # Get ready to start
+setup_ui(sys.argv[1])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
