@@ -13,7 +13,6 @@ from gi.repository import Clutter
 gi.require_version('GdkPixbuf', '2.0')
 from gi.repository import GdkPixbuf
 from gi.repository import Pango, Cogl
-import time
 
 
 ## Initialise
@@ -118,7 +117,7 @@ def _lb_scroll_cleanup(actor):
     return False
 
 
-LB_GESTURE_DELTATIME_MS = 0.500
+LB_GESTURE_DELTATIME_MS = 500
 gLBMMCnt = 0
 def _handle_lb_mouse(actor, event):
     global gLBMMCnt
@@ -128,7 +127,7 @@ def _handle_lb_mouse(actor, event):
     if event.type == Clutter.EventType.BUTTON_PRESS:
         print("DBUG:LBMouse:BtnPress", aID, gLBMMCnt)
         gActors[aID]['prevPos'] = (event.x, event.y)
-        gActors[aID]['prevTime'] = time.time()
+        gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_PROPAGATE
     elif event.type == Clutter.EventType.MOTION:
         gLBMMCnt += 1
@@ -137,7 +136,7 @@ def _handle_lb_mouse(actor, event):
         x = gActors[aID]['posX']
         y = gActors[aID]['posY']
         if prevTime != None:
-            timeDelta = time.time() - prevTime
+            timeDelta = event.time - prevTime
         else:
             timeDelta = 54321
         if (timeDelta < LB_GESTURE_DELTATIME_MS):
@@ -169,7 +168,7 @@ def _handle_lb_mouse(actor, event):
                         Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
                 return False
             gActors[aID]['prevPos'] = (event.x, event.y)
-            gActors[aID]['prevTime'] = time.time()
+            gActors[aID]['prevTime'] = event.time
             return True
         else:
             print("DBUG:LBMouse:Motion: Stray or Delayed", aID, gLBMMCnt, timeDelta)
