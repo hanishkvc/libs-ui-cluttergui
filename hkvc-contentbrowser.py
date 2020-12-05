@@ -112,16 +112,8 @@ stageBgndImage = cg.create_image("Background.png")
 stage.set_content(stageBgndImage)
 stage.set_size(800,600)
 stage.set_title("Content Browser")
+gGUI['NONE'] = stage
 
-# Create content groups related listboxes
-lbVert = cg.create_listbox(150,100, 600,500, Clutter.Orientation.VERTICAL, iD="lbVert", pad=20)
-lbG1 = cg.create_listbox(0,0, 600,128, Clutter.Orientation.HORIZONTAL, iD="lbG1", handle_itemclick=handle_lb_itemclick)
-cg.listbox_append_child(lbVert, 600,128, lbG1)
-gGUI['LBG1'] = lbG1
-lbG2 = cg.create_listbox(0,0, 600,128, Clutter.Orientation.HORIZONTAL, iD="lbG2", handle_itemclick=handle_lb_itemclick)
-cg.listbox_append_child(lbVert, 600,128, lbG2)
-gGUI['LBG2'] = lbG2
-stage.add_child(lbVert)
 
 # setup ui
 def setup_ui(sFile):
@@ -147,12 +139,16 @@ def setup_ui(sFile):
             else:
                 tLB[tag] = Clutter.Orientation.VERTICAL
         elif l == "LISTBOX_END":
+            print(tLB)
             if tLB['ID'] in gGUI:
                 actor = gGUI[tLB['ID']]
                 actor.destroy_all_children()
                 actor.destroy()
             lb = cg.create_listbox(tLB['X'],tLB['Y'], tLB['W'],tLB['H'], tLB['ORIENTATION'], iD=tLB['ID'], pad=tLB['PAD'], handle_itemclick=handle_lb_itemclick)
-            stage.add_child(lb)
+            if tLB['PID'] == "NONE":
+                stage.add_child(lb)
+            elif tLB['PID'].startswith("LB"):
+                cg.listbox_append_child(gGUI[tLB['PID']], tLB['W'],tLB['H'], lb)
             gGUI[tLB['ID']] = lb
             gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'] }
     f.close()
@@ -191,6 +187,7 @@ def load_contentmeta(sFile):
 
 # Get ready to start
 setup_ui(sys.argv[1])
+print(stage.get_children())
 load_contentmeta(sys.argv[2])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)

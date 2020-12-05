@@ -1,15 +1,56 @@
 
 LISTBOX_BEGIN
     T:ID lbCat
-    I:X  100
+    T:PID None
+    I:X  10
     I:Y  100
-    I:W  100
+    I:W  128
     I:H  600
     I:IW 128
     I:IH 128
     I:PAD 2
     S:ORIENTATION VERTICAL
 LISTBOX_END
+
+LISTBOX_BEGIN
+    T:ID lbVert
+    T:PID None
+    I:X  150
+    I:Y  100
+    I:W  128
+    I:H  600
+    I:IW 128
+    I:IH 128
+    I:PAD 20
+    S:ORIENTATION VERTICAL
+LISTBOX_END
+
+LISTBOX_BEGIN
+    T:ID lbG1
+    T:PID lbVert
+    I:X  0
+    I:Y  0
+    I:W  600
+    I:H  128
+    I:IW 128
+    I:IH 128
+    I:PAD 2
+    S:ORIENTATION HORIZONTAL
+LISTBOX_END
+
+LISTBOX_BEGIN
+    T:ID lbG2
+    T:PID lbVert
+    I:X  0
+    I:Y  0
+    I:W  600
+    I:H  128
+    I:IW 128
+    I:IH 128
+    I:PAD 2
+    S:ORIENTATION HORIZONTAL
+LISTBOX_END
+
 
 // vim:sts=4:sw=4:expandtab
 
