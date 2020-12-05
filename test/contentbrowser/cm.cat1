@@ -37,3 +37,6 @@ item Item4.png cm:test/contentbrowser/Item1.mp4
 item Item3.png cm:test/contentbrowser/Item3.mp4
 item Item2.png cm:test/contentbrowser/Item2.mp4
 item Item1.png cm:test/contentbrowser/Item1.mp4
+gui LBAD1
+item Item9.png cm:test/contentbrowser/Item3.mp4
+

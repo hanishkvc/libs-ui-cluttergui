@@ -42,6 +42,20 @@ LISTBOX_BEGIN
 LISTBOX_END
 
 LISTBOX_BEGIN
+    T:ID lbAd1
+    T:PID lbVert
+    I:X  0
+    I:Y  0
+    I:W  600
+    I:H  64
+    I:IW 600
+    I:IH 64
+    I:PAD 2
+    S:ORIENTATION HORIZONTAL
+    S:ITEMHANDLER NONE
+LISTBOX_END
+
+LISTBOX_BEGIN
     T:ID lbG2
     T:PID lbVert
     I:X  0
