@@ -48,7 +48,10 @@ def handle_destroy(actor):
 
 def handle_lb_itemclick(actor, event):
     aID = actor.get_id()
-    print(actor, event, aID)
+    cg.dprint(cg.GDEBUG+1, actor, event, aID)
+    lb,item = aID.split('.')
+    dest = gData[lb][int(item)]
+    print("Handle:{}->{}:{}".format(lb, item, dest))
     return Clutter.EVENT_STOP
 
 
