@@ -123,7 +123,7 @@ stageBgndImage = cg.create_image("Background.png")
 stage.set_content(stageBgndImage)
 stage.set_size(800,600)
 stage.set_title("Content Browser")
-gGUI['NONE'] = stage
+gGUI['ROOT'] = stage
 
 
 # setup ui
@@ -164,8 +164,9 @@ def setup_ui(sFile):
                 actor.destroy_all_children()
                 actor.destroy()
             lb = cg.create_listbox(tLB['X'],tLB['Y'], tLB['W'],tLB['H'], tLB['ORIENTATION'], iD=tLB['ID'], pad=tLB['PAD'], handle_itemclick=tLB['ITEMHANDLER'])
-            if tLB['PID'] == "NONE":
-                stage.add_child(lb)
+            if tLB['PID'] == "ROOT":
+                #stage.add_child(lb)
+                gGUI[tLB['PID']].add_child(lb)
             elif tLB['PID'].startswith("LB"):
                 cg.listbox_append_child(gGUI[tLB['PID']], tLB['W'],tLB['H'], lb)
             gGUI[tLB['ID']] = lb

@@ -1,7 +1,7 @@
 
 LISTBOX_BEGIN
     T:ID lbCat
-    T:PID None
+    T:PID ROOT
     I:X  16
     I:Y  32
     I:W  128
@@ -15,7 +15,7 @@ LISTBOX_END
 
 LISTBOX_BEGIN
     T:ID lbVert
-    T:PID None
+    T:PID ROOT
     I:X  150
     I:Y  100
     I:W  700
