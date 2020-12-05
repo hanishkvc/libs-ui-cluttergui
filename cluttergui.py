@@ -15,6 +15,26 @@ from gi.repository import GdkPixbuf
 from gi.repository import Pango, Cogl
 
 
+## Helpers
+
+
+GDEBUG=5
+def dprint(DBGLVL, *args):
+    '''
+    Setting GDEBUG to a Negative value disables dprints fully.
+    If DBGLVL passed is less than or equal to current GDEBUG then print
+    Else print a empty line (to indicate a debug message has been ignored)
+
+    The passed arguments are seperated by space.
+    '''
+    if GDEBUG < 0:
+        return
+    if DBGLVL <= GDEBUG:
+        for arg in args:
+            print(arg, end=" ")
+    print("")
+
+
 ## Initialise
 
 pathData = "data/"
@@ -119,13 +139,16 @@ def _lb_scroll_cleanup(actor):
 
 LB_GESTURE_DELTATIME_MS = 500
 gLBMMCnt = 0
+DEBUG_LBM_NEGPATH = GDEBUG
+DEBUG_LBM = GDEBUG + 1
+DEBUG_LBM_EXTRA = GDEBUG + 1
 def _handle_lb_mouse(actor, event):
     global gLBMMCnt
     #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     aID = actor.get_id()
     orientation = actor.get_layout_manager().get_orientation()
     if event.type == Clutter.EventType.BUTTON_PRESS:
-        print("DBUG:LBMouse:BtnPress", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
+        dprint(DEBUG_LBM, "DBUG:LBMouse:BtnPress", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_PROPAGATE
@@ -152,7 +175,7 @@ def _handle_lb_mouse(actor, event):
                 bHorizScroll = False
             if (x >= 0) and (y >= 0):
                 if ((orientation == Clutter.Orientation.HORIZONTAL) and (x > 0) and bHorizScroll) or ((orientation == Clutter.Orientation.VERTICAL) and (y > 0) and bVertiScroll):
-                    print("DBUG:LBMouse:Motion: Will Scroll", aID, gLBMMCnt, x, y)
+                    dprint(DEBUG_LBM_EXTRA, "DBUG:LBMouse:Motion: Will Scroll", aID, gLBMMCnt, x, y)
                     actor.save_easing_state()
                     point = Clutter.Point()
                     point.x = x
@@ -162,26 +185,26 @@ def _handle_lb_mouse(actor, event):
                     gActors[aID]['posY'] = y
                     actor.restore_easing_state()
                 else:
-                    print("DBUG:LBMouse:Motion: Not my scroll", aID, gLBMMCnt)
+                    dprint(DEBUG_LBM_NEGPATH, "DBUG:LBMouse:Motion: Not my scroll", aID, gLBMMCnt)
                     return False
             else:
                 if ((orientation == Clutter.Orientation.HORIZONTAL) and (x < 0)) or ((orientation == Clutter.Orientation.VERTICAL) and (y < 0)):
-                    print("DBUG:LBMouse:Motion: Scroll already at boundry", aID, gLBMMCnt, x, y)
+                    dprint(DEBUG_LBM, "DBUG:LBMouse:Motion: Scroll already at boundry", aID, gLBMMCnt, x, y)
                     if gActors[aID]['blur'] == False:
                         actor.add_effect(blurEffect)
                         gActors[aID]['blur'] = True
                         Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
                 else:
-                    print("DBUG:LBMouse:Motion: Scroll Pos -ve, passing up", aID, gLBMMCnt, x, y)
+                    dprint(DEBUG_LBM_NEGPATH, "DBUG:LBMouse:Motion: Scroll Pos -ve, Not mine, just passing up", aID, gLBMMCnt, x, y)
                 return False
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
             return True
         else:
-            print("DBUG:LBMouse:Motion: Stray or Delayed", aID, gLBMMCnt, timeDelta)
+            dprint(DEBUG_LBM_NEGPATH, "DBUG:LBMouse:Motion: Stray or Delayed", aID, gLBMMCnt, timeDelta)
             return False
     elif event.type == Clutter.EventType.BUTTON_RELEASE:
-        print("DBUG:LBMouse:BtnRelease", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
+        dprint(DEBUG_LBM, "DBUG:LBMouse:BtnRelease", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
         gActors[aID]['prevPos'] = None
         gActors[aID]['prevTime'] = None
         if gActors[aID]['blur']:
