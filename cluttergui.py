@@ -196,7 +196,7 @@ def _handle_lb_mouse(actor, event):
                         gActors[aID]['blur'] = True
                         Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
                 else:
-                    dprint(DEBUG_LBM_NEGPATH, "DBUG:LBMouse:Motion: Scroll Pos -ve, Not mine, just passing up", aID, gLBMMCnt, x, y)
+                    dprint(DEBUG_LBM_NEGPATH, "DBUG:LBMouse:Motion: Scroll Pos -ve, Not mine, just passing up", aID, gLBMMCnt, x, y, xD, yD)
                 return False
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
