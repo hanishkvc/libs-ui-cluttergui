@@ -102,6 +102,7 @@ CAT_END
 
 
 gGUI = {}
+gGUIData = {}
 
 
 # Create the stage
@@ -156,11 +157,44 @@ def setup_ui(sFile):
             actor.set_size(tLB['W'], tLB['H'])
             actor.get_layout_manager().set_orientation(tLB['ORIENTATION'])
             actor.get_layout_manager().set_spacing(tLB['PAD'])
+            gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'] }
     f.close()
+
+
+## Data
+
+
+gData = {}
+
+
+def load_contentmeta(sFile):
+    '''
+    Currently implemented in a simple way, such that the content metadata file requires only
+    GUI and ITEM elements and nothing else like CAT_BEGIN/END or GROUND_BEGIN/END.
+    '''
+    aID = None
+    f = open(sFile)
+    for l in f:
+        l = l.strip()
+        if l.upper().startswith("GUI"):
+            if aID != None:
+                gData[aID] = lData
+            aID = l.split(' ',1)[1].strip()
+            gGUI[aID].remove_all_children()
+            lData = []
+        elif l.upper().startswith("ITEM"):
+            la = l.split(' ')
+            img = la[1]
+            target = la[2]
+            btn = cg.create_imagebutton(img, cg.IGNORE, cg.IGNORE, gGUIData[aID]['IW'], gGUIData[aID]['IH'], "{}.{}".format(aID, len(lData)))
+            cg.listbox_append_child(gGUI[aID], gGUIData[aID]['IW'], gGUIData[aID]['IH'], btn, handle_lb_itemclick)
+            lData.append(target)
+
 
 
 # Get ready to start
 setup_ui(sys.argv[1])
+load_contentmeta(sys.argv[2])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
