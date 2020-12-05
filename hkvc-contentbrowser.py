@@ -106,6 +106,8 @@ CAT_BEGIN
 
 CAT_END
 
+NOTE: Currently the concept of TAG is not used in Content metadata files
+
 '''
 
 
