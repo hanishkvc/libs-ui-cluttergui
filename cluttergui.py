@@ -149,12 +149,14 @@ def _handle_lb_mouse(actor, event):
                 y -= yD
             if (x >= 0) and (y >= 0):
                 if ((orientation == Clutter.Orientation.HORIZONTAL) and (x > 0)) or ((orientation == Clutter.Orientation.VERTICAL) and (y > 0)):
+                    actor.save_easing_state()
                     point = Clutter.Point()
                     point.x = x
                     point.y = y
                     actor.scroll_to_point(point)
                     gActors[aID]['posX'] = x
                     gActors[aID]['posY'] = y
+                    actor.restore_easing_state()
                 else:
                     print("DBUG:LBMouse:Motion: Not my scroll", aID, gLBMMCnt)
                     return False
