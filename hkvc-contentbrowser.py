@@ -26,6 +26,11 @@ print(colorizeEffect1.get_tint().to_string())
 #### Handle events
 
 
+def handle_key1_press(actor, event):
+    stage.show()
+    stage1.hide()
+
+
 def handle_key_press(actor, event):
     global lPos, lYRotate
     #print("INFO:KeyPress:{}:{}:{}".format(actor, event.keyval, chr(event.keyval)), event.flags, event.type, event.modifier_state)
@@ -35,6 +40,9 @@ def handle_key_press(actor, event):
         if (event.keyval == Clutter.KEY_A):
             cg.listbox_select(gGUI['LBCAT'], 1, cg.SelectOffsetType.CUR)
             cg.listbox_select(gGUI['LBG1'], 1, cg.SelectOffsetType.CUR, colorizeEffect=colorizeEffect1)
+        elif (event.keyval == Clutter.KEY_X):
+            stage.hide()
+            stage1.show()
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -125,6 +133,10 @@ stage.set_size(800,600)
 stage.set_title("Content Browser")
 gGUI['NONE'] = stage
 
+stage1 = Clutter.Stage()
+stage1.set_background_color(Clutter.color_from_string("Red")[1])
+stage1.set_size(400,800)
+stage1.set_title("Content Player")
 
 # setup ui
 def setup_ui(sFile):
@@ -215,7 +227,9 @@ initialCat = gData['LBCAT'][0]
 handle_target(initialCat)
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
+stage1.connect("key-press-event", handle_key1_press)
 stage.show()
+stage1.hide()
 Clutter.main()
 
 
