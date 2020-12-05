@@ -118,7 +118,9 @@ def _lb_scroll_cleanup(actor):
 
 
 LB_GESTURE_DELTATIME_MS = 500
+gLBMMCnt = 0
 def _handle_lb_mouse(actor, event):
+    global gLBMMCnt
     #print("INFO:LbMouse:{}:{}:{},{}:{}".format(event.time, actor, event.x, event.y, event.type))
     aID = actor.get_id()
     orientation = actor.get_layout_manager().get_orientation()
@@ -128,11 +130,16 @@ def _handle_lb_mouse(actor, event):
         gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_PROPAGATE
     elif event.type == Clutter.EventType.MOTION:
+        gLBMMCnt += 1
         prevPos = gActors[aID]['prevPos']
         prevTime = gActors[aID]['prevTime']
         x = gActors[aID]['posX']
         y = gActors[aID]['posY']
-        if (prevTime != None) and ((event.time - prevTime) < LB_GESTURE_DELTATIME_MS):
+        if prevTime != None:
+            timeDelta = event.time - prevTime
+        else:
+            timeDelta = 54321
+        if (timeDelta < LB_GESTURE_DELTATIME_MS):
             xD = event.x - prevPos[0]
             yD = event.y - prevPos[1]
             if abs(xD) > abs(yD):
@@ -162,7 +169,8 @@ def _handle_lb_mouse(actor, event):
             gActors[aID]['prevTime'] = event.time
             return True
         else:
-            print("DBUG:LBMouse:Motion: Stray or Delayed")
+            print("DBUG:LBMouse:Motion: Stray or Delayed", gLBMMCnt, timeDelta)
+            return False
     elif event.type == Clutter.EventType.BUTTON_RELEASE:
         print("DBUG:LBMouse:BtnRelease")
         gActors[aID]['prevPos'] = None
