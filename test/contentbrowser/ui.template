@@ -55,6 +55,20 @@ LISTBOX_BEGIN
     S:ITEMHANDLER STANDARD
 LISTBOX_END
 
+LISTBOX_BEGIN
+    T:ID lbG3
+    T:PID lbVert
+    I:X  0
+    I:Y  0
+    I:W  700
+    I:H  128
+    I:IW 128
+    I:IH 128
+    I:PAD 2
+    S:ORIENTATION HORIZONTAL
+    S:ITEMHANDLER STANDARD
+LISTBOX_END
+
 
 // vim:sts=4:sw=4:expandtab
 
