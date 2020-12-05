@@ -1,2 +1,2 @@
 #./hkvc-contentbrowser.py test/contentbrowser/ui.template test/contentbrowser/cm.main test/contentbrowser/cm.cat1
-./hkvc-contentbrowser.py test/contentbrowser/ui.template test/contentbrowser/cm.main LBCAT
+./hkvc-contentbrowser.py test/contentbrowser/ui.main test/contentbrowser/cm.main LBCAT
