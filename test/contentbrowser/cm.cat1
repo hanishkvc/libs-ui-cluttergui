@@ -1,0 +1,29 @@
+gui LBG1
+item Item1.png cm:test/contentbrowser/Item1.mp4
+item Item2.png cm:test/contentbrowser/Item2.mp4
+item Item3.png cm:test/contentbrowser/Item3.mp4
+item Item4.png cm:test/contentbrowser/Item1.mp4
+item Item5.png cm:test/contentbrowser/Item2.mp4
+item Item6.png cm:test/contentbrowser/Item3.mp4
+item Item7.png cm:test/contentbrowser/Item1.mp4
+item Item8.png cm:test/contentbrowser/Item2.mp4
+item Item9.png cm:test/contentbrowser/Item3.mp4
+item Item1.png cm:test/contentbrowser/Item1.mp4
+item Item2.png cm:test/contentbrowser/Item2.mp4
+item Item3.png cm:test/contentbrowser/Item3.mp4
+item Item4.png cm:test/contentbrowser/Item1.mp4
+item Item5.png cm:test/contentbrowser/Item2.mp4
+item Item6.png cm:test/contentbrowser/Item3.mp4
+item Item7.png cm:test/contentbrowser/Item1.mp4
+item Item8.png cm:test/contentbrowser/Item2.mp4
+item Item9.png cm:test/contentbrowser/Item3.mp4
+gui LBG2
+item Item1.png cm:test/contentbrowser/Item1.mp4
+item Item2.png cm:test/contentbrowser/Item2.mp4
+item Item3.png cm:test/contentbrowser/Item3.mp4
+item Item4.png cm:test/contentbrowser/Item1.mp4
+item Item5.png cm:test/contentbrowser/Item2.mp4
+item Item6.png cm:test/contentbrowser/Item3.mp4
+item Item7.png cm:test/contentbrowser/Item1.mp4
+item Item8.png cm:test/contentbrowser/Item2.mp4
+item Item9.png cm:test/contentbrowser/Item3.mp4

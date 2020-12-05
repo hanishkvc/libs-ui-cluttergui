@@ -46,12 +46,19 @@ def handle_destroy(actor):
     Clutter.main_quit()
 
 
+def handle_target(target):
+    targetType, targetLink = target.split(':')
+    if targetType.upper() == "CM":
+        load_contentmeta(targetLink)
+
+
 def handle_lb_itemclick(actor, event):
     aID = actor.get_id()
     cg.dprint(cg.GDEBUG+1, actor, event, aID)
     lb,item = aID.split('.')
-    dest = gData[lb][int(item)]
-    print("Handle:{}->{}:{}".format(lb, item, dest))
+    target = gData[lb][int(item)]
+    print("Handle:{}->{}:{}".format(lb, item, target))
+    handle_target(target)
     return Clutter.EVENT_STOP
 
 
@@ -204,7 +211,8 @@ def load_contentmeta(sFile):
 setup_ui(sys.argv[1])
 print(stage.get_children())
 load_contentmeta(sys.argv[2])
-load_contentmeta(sys.argv[3])
+initialCat = gData['LBCAT'][0]
+handle_target(initialCat)
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
