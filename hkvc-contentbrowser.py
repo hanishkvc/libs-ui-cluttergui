@@ -61,6 +61,7 @@ UI Template file will contain One or more of
 
 LISTBOX_BEGIN
     T:ID gui_id
+    T:PID parent_gui_id
     I:X x
     I:Y y
     I:W w
@@ -69,6 +70,7 @@ LISTBOX_BEGIN
     I:IH h
     I:PAD pad_size
     S:ORIENTATION horizontal|vertical
+    S:ITEMHANDLER None|Standard
 LISTBOX_END
 
 
@@ -138,19 +140,27 @@ def setup_ui(sFile):
                 tLB[tag] = Clutter.Orientation.HORIZONTAL
             else:
                 tLB[tag] = Clutter.Orientation.VERTICAL
+        elif l.startswith("S:ITEMHANDLER"):
+            tag = l.split(' ')[0].split(':')[1]
+            val = l.split(' ',1)[1].strip()
+            if val == "NONE":
+                tLB[tag] = None
+            else:
+                tLB[tag] = handle_lb_itemclick
+
         elif l == "LISTBOX_END":
             print(tLB)
             if tLB['ID'] in gGUI:
                 actor = gGUI[tLB['ID']]
                 actor.destroy_all_children()
                 actor.destroy()
-            lb = cg.create_listbox(tLB['X'],tLB['Y'], tLB['W'],tLB['H'], tLB['ORIENTATION'], iD=tLB['ID'], pad=tLB['PAD'], handle_itemclick=handle_lb_itemclick)
+            lb = cg.create_listbox(tLB['X'],tLB['Y'], tLB['W'],tLB['H'], tLB['ORIENTATION'], iD=tLB['ID'], pad=tLB['PAD'], handle_itemclick=tLB['ITEMHANDLER'])
             if tLB['PID'] == "NONE":
                 stage.add_child(lb)
             elif tLB['PID'].startswith("LB"):
                 cg.listbox_append_child(gGUI[tLB['PID']], tLB['W'],tLB['H'], lb)
             gGUI[tLB['ID']] = lb
-            gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'] }
+            gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'], 'ITEMHANDLER': tLB['ITEMHANDLER'] }
     f.close()
 
 
@@ -180,7 +190,7 @@ def load_contentmeta(sFile):
             img = la[1]
             target = la[2]
             btn = cg.create_imagebutton(img, cg.IGNORE, cg.IGNORE, gGUIData[aID]['IW'], gGUIData[aID]['IH'], "{}.{}".format(aID, len(lData)))
-            cg.listbox_append_child(gGUI[aID], gGUIData[aID]['IW'], gGUIData[aID]['IH'], btn, handle_lb_itemclick)
+            cg.listbox_append_child(gGUI[aID], gGUIData[aID]['IW'], gGUIData[aID]['IH'], btn, gGUIData[aID]['ITEMHANDLER'])
             lData.append(target)
 
 
@@ -189,6 +199,7 @@ def load_contentmeta(sFile):
 setup_ui(sys.argv[1])
 print(stage.get_children())
 load_contentmeta(sys.argv[2])
+load_contentmeta(sys.argv[3])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
