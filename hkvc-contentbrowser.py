@@ -207,13 +207,36 @@ def load_contentmeta(sFile):
     print(sFile, gData)
 
 
+## Screens
+
+def load_screen(sUIFile, sCMFile, sTarget=None):
+    '''
+    Represents a Unique Screen in the App.
+    sUIFile: provides the UI template for the screen
+    sCMFile: provides the contents for the screen
+    sTarget: If any specific Target/Content in the screen requires to be triggered, then specify.
+    '''
+    # Clear current screen if any
+    gGUI['ROOT'].remove_all_children()
+    gData.clear()
+    for key in gGUI:
+        if key != 'ROOT':
+            gGUI.pop(key)
+    # Setup new screen
+    setup_ui(sUIFile)
+    cg.dprint(cg.GDEBUG, stage.get_children())
+    load_contentmeta(sCMFile)
+    if sTarget != None:
+        target = gData[sTarget][0]
+        handle_target(target)
+
+
+gScreen = {
+    'main': [ sys.argv[1], sys.argv[2], sys.argv[3] ],
+    }
 
 # Get ready to start
-setup_ui(sys.argv[1])
-print(stage.get_children())
-load_contentmeta(sys.argv[2])
-initialCat = gData['LBCAT'][0]
-handle_target(initialCat)
+load_screen(gScreen['main'][0], gScreen['main'][1], gScreen['main'][2])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
