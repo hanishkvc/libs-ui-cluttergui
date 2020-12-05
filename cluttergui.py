@@ -151,6 +151,7 @@ def _handle_lb_mouse(actor, event):
         dprint(DEBUG_LBM, "DBUG:LBMouse:BtnPress", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
+        gActors[aID]['startTime'] = event.time
         return Clutter.EVENT_PROPAGATE
     elif event.type == Clutter.EventType.MOTION:
         gLBMMCnt += 1
@@ -205,6 +206,7 @@ def _handle_lb_mouse(actor, event):
             return False
     elif event.type == Clutter.EventType.BUTTON_RELEASE:
         dprint(DEBUG_LBM, "DBUG:LBMouse:BtnRelease", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
+        gActors[aID]['startTime'] = None
         gActors[aID]['prevPos'] = None
         gActors[aID]['prevTime'] = None
         if gActors[aID]['blur']:
@@ -213,16 +215,24 @@ def _handle_lb_mouse(actor, event):
         return Clutter.EVENT_PROPAGATE
 
 
+LBITEMCLICK_MAXTIMEDELTA=300
 def _handle_lb_itemclick(actor, event):
     '''
-    This is a indirection to button press handling of listbox items,
-    So that the event gets propogated further up the actor hierarchy, in this case upto listbox actor.
-    Which inturn ensures that scrolling (by dragging items within the listbox) can be handled.
+    ListBox ItemClick is triggered on button release event.
+    This indirection ensures that, if there was a sufficiently long delay between
+    the button press and button release events, then the itemclick is not called.
+    This ensures that if user tries to scroll the items of a listbox, then it doesnt
+    trigger a itemclick when they release the button at the end of the scroll.
+
+    Originally created to propogate button_press_event from listbox item to listbox,
+    so that scrolling of listbox items can be done.
     '''
     print("lbitemclick")
-    handle_itemclick = gActors[actor.get_parent().get_id()]['handle_itemclick']
-    if handle_itemclick != None:
-        handle_itemclick(actor, event)
+    aPID = actor.get_parent().get_id()
+    handle_itemclick = gActors[aPID]['handle_itemclick']
+    deltaTime = event.time - gActors[aPID]['startTime']
+    if (handle_itemclick != None) and (deltaTime < LBITEMCLICK_MAXTIMEDELTA):
+        return handle_itemclick(actor, event)
     return Clutter.EVENT_PROPAGATE
 
 
@@ -244,6 +254,7 @@ def create_listbox(posX, posY, sizeX, sizeY, orientation=Clutter.Orientation.HOR
     boxList.set_size(sizeX, sizeY)
     boxList.set_reactive(True)
     gActors[iD] = { 'curIndex': 0,                                  # index to current selection in the listbox
+                        'startTime': None,                          # store time of button press
                         'prevPos': None, 'prevTime': None,          # location and time of mouse wrt last event during scroll
                         'posX': 0, 'posY': 0,                       # Corresponds to offset wrt Viewport start
                         'handle_itemclick': handle_itemclick,       # custom handler for handling itemclicks
