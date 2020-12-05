@@ -125,7 +125,7 @@ def _handle_lb_mouse(actor, event):
     aID = actor.get_id()
     orientation = actor.get_layout_manager().get_orientation()
     if event.type == Clutter.EventType.BUTTON_PRESS:
-        print("DBUG:LBMouse:BtnPress", aID, gLBMMCnt)
+        print("DBUG:LBMouse:BtnPress", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
         gActors[aID]['prevPos'] = (event.x, event.y)
         gActors[aID]['prevTime'] = event.time
         return Clutter.EVENT_PROPAGATE
@@ -148,6 +148,7 @@ def _handle_lb_mouse(actor, event):
                 y -= yD
             if (x >= 0) and (y >= 0):
                 if ((orientation == Clutter.Orientation.HORIZONTAL) and (x > 0)) or ((orientation == Clutter.Orientation.VERTICAL) and (y > 0)):
+                    print("DBUG:LBMouse:Motion: Will Scroll", aID, gLBMMCnt, x, y)
                     actor.save_easing_state()
                     point = Clutter.Point()
                     point.x = x
@@ -166,6 +167,8 @@ def _handle_lb_mouse(actor, event):
                         actor.add_effect(blurEffect)
                         gActors[aID]['blur'] = True
                         Clutter.threads_add_timeout(GLib.PRIORITY_DEFAULT, LB_CLEANUP_TIMEOUT, _lb_scroll_cleanup, actor)
+                else:
+                    print("DBUG:LBMouse:Motion: Scroll Pos -ve, passing up", aID, gLBMMCnt, x, y)
                 return False
             gActors[aID]['prevPos'] = (event.x, event.y)
             gActors[aID]['prevTime'] = event.time
@@ -174,7 +177,7 @@ def _handle_lb_mouse(actor, event):
             print("DBUG:LBMouse:Motion: Stray or Delayed", aID, gLBMMCnt, timeDelta)
             return False
     elif event.type == Clutter.EventType.BUTTON_RELEASE:
-        print("DBUG:LBMouse:BtnRelease", aID, gLBMMCnt)
+        print("DBUG:LBMouse:BtnRelease", aID, gLBMMCnt, gActors[aID]['posX'], gActors[aID]['posY'])
         gActors[aID]['prevPos'] = None
         gActors[aID]['prevTime'] = None
         if gActors[aID]['blur']:
