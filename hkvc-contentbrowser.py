@@ -248,12 +248,13 @@ def _load_screen(sUIFile, sCMFile, sTarget=None):
     sCMFile: provides the contents for the screen
     sTarget: If any specific Target/Content in the screen requires to be triggered, then specify.
     '''
+    global gGUI
     # Clear current screen if any
     gGUI['ROOT'].remove_all_children()
     gData.clear()
-    for key in gGUI:
-        if key != 'ROOT':
-            gGUI.pop(key)
+    dGUI = {}
+    dGUI['ROOT'] = gGUI['ROOT']
+    gGUI = dGUI
     # Setup new screen
     setup_ui(sUIFile)
     cg.dprint(cg.GDEBUG, stage.get_children())
