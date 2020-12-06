@@ -12,6 +12,11 @@ from gi.repository import Clutter
 import cluttergui as cg
 
 
+if len(sys.argv) != 2:
+    print("Usage: {} <path/to/ui_config_files>".format(sys.argv[0]))
+    exit(1)
+
+
 #### Initialise
 
 
@@ -256,11 +261,28 @@ def load_screen(sUIFile, sCMFile, sTarget=None):
         handle_target(target)
 
 
-gScreen = {
-    'main': [ sys.argv[1], sys.argv[2], sys.argv[3] ],
-    }
+gScreen = {}
+def init_screens(dScreen, basePath):
+    '''
+    The specified path should contain the ui template and corresponding controls related
+    contentmeta files for
+        main, audio
+    The main is expected to have listbox named LBCAT, whose 0th entry will be triggered,
+    when the main screen is displayed.
+    '''
+    screens = [
+        [ 'main', 'LBCAT' ],
+        [ 'audio', None ] ]
+    for screen in screens:
+        ui = "{}/ui.{}".format(basePath, screen[0])
+        cm = "{}/cm.{}".format(basePath, screen[0])
+        target = screen[1]
+        l = [ ui, cm, target ]
+        dScreen[screen[0]] = l
+
 
 # Get ready to start
+init_screens(gScreen, sys.argv[1])
 load_screen(gScreen['main'][0], gScreen['main'][1], gScreen['main'][2])
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
