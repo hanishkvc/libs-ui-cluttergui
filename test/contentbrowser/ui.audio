@@ -5,7 +5,7 @@ LISTBOX_BEGIN
     T:PID ROOT
     I:X  32
     I:Y  32
-    I:W  550
+    I:W  736
     I:H  64
     I:IW 550
     I:IH 64
@@ -17,12 +17,12 @@ LISTBOX_END
 LISTBOX_BEGIN
     T:ID lbSongs
     T:PID ROOT
-    I:X  64
+    I:X  100
     I:Y  100
-    I:W  550
-    I:H  500
-    I:IW 550
-    I:IH 64
+    I:W  600
+    I:H  400
+    I:IW 600
+    I:IH 32
     I:PAD 2
     S:ORIENTATION VERTICAL
     S:ITEMHANDLER STANDARD

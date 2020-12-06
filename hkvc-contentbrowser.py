@@ -59,6 +59,9 @@ def handle_target(target):
     targetType, targetLink = target.split(':')
     if targetType.upper() == "CM":
         load_contentmeta(targetLink)
+    if targetType.upper() == "CMA":
+        load_screen('audio')
+        load_contentmeta(targetLink)
 
 
 def handle_lb_itemclick(actor, event):

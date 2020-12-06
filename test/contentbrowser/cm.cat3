@@ -1,0 +1,30 @@
+gui LBG1
+item Item11.png cma:test/contentbrowser/AItem11.cm
+item Item12.png cma:test/contentbrowser/AItem12.cm
+item Item13.png cma:test/contentbrowser/AItem13.cm
+item Item14.png cma:test/contentbrowser/AItem14.cm
+item Item15.png cma:test/contentbrowser/AItem15.cm
+item Item16.png cma:test/contentbrowser/AItem16.cm
+item Item17.png cma:test/contentbrowser/AItem17.cm
+item Item18.png cma:test/contentbrowser/AItem18.cm
+item Item19.png cma:test/contentbrowser/AItem19.cm
+item Item11.png cma:test/contentbrowser/AItem11.cm
+item Item12.png cma:test/contentbrowser/AItem12.cm
+item Item13.png cma:test/contentbrowser/AItem13.cm
+item Item14.png cma:test/contentbrowser/AItem14.cm
+item Item15.png cma:test/contentbrowser/AItem15.cm
+item Item16.png cma:test/contentbrowser/AItem16.cm
+item Item17.png cma:test/contentbrowser/AItem17.cm
+item Item18.png cma:test/contentbrowser/AItem18.cm
+item Item19.png cma:test/contentbrowser/AItem19.cm
+gui LBG2
+item Item11.png cma:test/contentbrowser/AItem11.cm
+item Item12.png cma:test/contentbrowser/AItem12.cm
+item Item13.png cma:test/contentbrowser/AItem13.cm
+item Item14.png cma:test/contentbrowser/AItem14.cm
+item Item15.png cma:test/contentbrowser/AItem15.cm
+item Item16.png cma:test/contentbrowser/AItem16.cm
+item Item17.png cma:test/contentbrowser/AItem17.cm
+item Item18.png cma:test/contentbrowser/AItem18.cm
+item Item19.png cma:test/contentbrowser/AItem19.cm
+gui LBG3
