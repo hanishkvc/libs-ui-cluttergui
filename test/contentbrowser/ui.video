@@ -1,0 +1,42 @@
+# Video screen
+
+LISTBOX_BEGIN
+    T:ID lbTitle
+    T:PID ROOT
+    I:X  32
+    I:Y  32
+    I:W  850
+    I:H  64
+    I:IW 850
+    I:IH 64
+    I:PAD 2
+    S:ORIENTATION VERTICAL
+    S:ITEMHANDLER NONE
+LISTBOX_END
+
+ACTOR_BEGIN
+    T:ID lbView
+    T:PID ROOT
+    I:X  100
+    I:Y  100
+    I:W  600
+    I:H  400
+    S:ITEMHANDLER VIDEOVIEW
+ACTOR_END
+
+LISTBOX_BEGIN
+    T:ID lbCtrl
+    T:PID ROOT
+    I:X  50
+    I:Y  500
+    I:W  700
+    I:H  100
+    I:IW 64
+    I:IH 64
+    I:PAD 8
+    S:ORIENTATION HORIZONTAL
+    S:ITEMHANDLER AUDIOCONTROL
+LISTBOX_END
+
+# vim:sts=4:sw=4:expandtab
+

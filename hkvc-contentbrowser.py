@@ -215,6 +215,8 @@ def setup_ui(sFile):
         print(l)
         if l == "LISTBOX_BEGIN":
             tLB = {}
+        elif l == "ACTOR_BEGIN":
+            tLB = {}
         elif l.startswith("I"):
             tag = l.split(' ')[0].split(':')[1]
             val = int(l.split(' ',1)[1].strip())
@@ -258,6 +260,18 @@ def setup_ui(sFile):
                 cg.listbox_append_child(gGUI[tLB['PID']], tLB['W'],tLB['H'], lb)
             gGUI[tLB['ID']] = lb
             gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'], 'ITEMHANDLER': tLB['ITEMHANDLER'] }
+        elif l == "ACTOR_END":
+            print(tLB)
+            a = Clutter.Actor()
+            a.set_position(tLB['X'], tLB['Y'])
+            a.set_size(tLB['W'], tLB['H'])
+            if tLB['PID'] == "ROOT":
+                gGUI[tLB['PID']].add_child(a)
+            else:
+                print("DBUG:SetupUI: Actor cant be child of Non Stage...")
+                exit(1)
+            gGUI[tLB['ID']] = a
+            gGUIData[tLB['ID']] = None
     f.close()
     if DEBUG_UIT:
         pygame.image.save(uitS, sFile+".png")
