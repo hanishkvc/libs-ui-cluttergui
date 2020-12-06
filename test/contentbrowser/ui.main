@@ -1,3 +1,4 @@
+# The main screen ui
 
 LISTBOX_BEGIN
     T:ID lbCat
@@ -84,5 +85,5 @@ LISTBOX_BEGIN
 LISTBOX_END
 
 
-// vim:sts=4:sw=4:expandtab
+# vim:sts=4:sw=4:expandtab
 

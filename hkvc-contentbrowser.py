@@ -130,8 +130,23 @@ gGUI['ROOT'] = stage
 
 # setup ui
 def setup_ui(sFile):
+    '''
+    Instantiate the specified gui elements.
+
+    Currently it supports instantiating listboxes along with their key properties
+    as well as to either add them to the main window/stage or to another listbox.
+
+    A PID of ROOT corresponds to the main window/stage.
+
+    One can assign from among a predefined list of itemclick handlers or ignore it.
+
+    A line begining with # is ignored, provided it is the 1st char in the line.
+    If # occurs after space char or so, then the line wont be ignored.
+    '''
     f = open(sFile)
     for l in f:
+        if l[0] == '#':
+            continue
         l = l.strip().upper()
         print(l)
         if l == "LISTBOX_BEGIN":
@@ -186,10 +201,18 @@ def load_contentmeta(sFile):
     '''
     Currently implemented in a simple way, such that the content metadata file requires only
     GUI and ITEM elements and nothing else like CAT_BEGIN/END or GROUND_BEGIN/END.
+
+    GUI tells the logic to clear any existing entries/children in that GUI element.
+    ANd to add any ITEM entries that follow it.
+
+    A line begining with # is ignored, provided it is the 1st char in the line.
+    If # occurs after space char or so, then the line wont be ignored.
     '''
     aID = None
     f = open(sFile)
     for l in f:
+        if l[0] == '#':
+            continue
         l = l.strip()
         if l.upper().startswith("GUI"):
             if aID != None:
