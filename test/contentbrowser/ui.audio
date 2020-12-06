@@ -1,0 +1,46 @@
+# Audio screen
+
+LISTBOX_BEGIN
+    T:ID lbCtrl
+    T:PID ROOT
+    I:X  0
+    I:Y  500
+    I:W  800
+    I:H  100
+    I:IW 64
+    I:IH 64
+    I:PAD 8
+    S:ORIENTATION HORIZONTAL
+    S:ITEMHANDLER AUDIOCTRL
+LISTBOX_END
+
+LISTBOX_BEGIN
+    T:ID lbTitle
+    T:PID ROOT
+    I:X  32
+    I:Y  32
+    I:W  550
+    I:H  64
+    I:IW 550
+    I:IH 64
+    I:PAD 2
+    S:ORIENTATION VERTICAL
+    S:ITEMHANDLER AUDIOCTRL
+LISTBOX_END
+
+LISTBOX_BEGIN
+    T:ID lbSongs
+    T:PID ROOT
+    I:X  64
+    I:Y  100
+    I:W  550
+    I:H  500
+    I:IW 550
+    I:IH 64
+    I:PAD 2
+    S:ORIENTATION VERTICAL
+    S:ITEMHANDLER STANDARD
+LISTBOX_END
+
+# vim:sts=4:sw=4:expandtab
+
