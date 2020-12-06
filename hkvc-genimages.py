@@ -42,7 +42,7 @@ for g in groups:
 
 # Media Navigation control
 
-controls = [ "Play", "Pause", "Next", "Prev", "Vol+", "Vol-", "Bri+", "Bri-" ]
+controls = [ "Play", "Pause", "Next", "Prev", "Vol+", "Vol-", "Bri+", "Bri-", "Back" ]
 for control in controls:
     fileName = control + ".png"
     gen_image(s64, control, fileName)
