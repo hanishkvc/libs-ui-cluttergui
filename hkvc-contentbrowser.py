@@ -11,6 +11,10 @@ gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 import cluttergui as cg
 
+
+GAPP_FULLSCREEN=False
+
+
 DEBUG_UIT=True
 if DEBUG_UIT:
     import pygame
@@ -157,20 +161,30 @@ gGUIData = {}
 
 
 # Create the stage
+
 def load_background(stage, backgroundImageFile):
     stageBgndImage = cg.create_image(backgroundImageFile)
     stage.set_content(stageBgndImage)
 
 
+GSTAGE_WIDTH=800
+GSTAGE_HEIGHT=600
 stage = Clutter.Stage()
 stage.set_background_color(Clutter.color_from_string("Black")[1])
 load_background(stage, 'Background.png')
-stage.set_size(800,600)
 stage.set_title("Content Browser")
+if GAPP_FULLSCREEN:
+    print("INFO:Stage requests fullscreen...")
+    stage.set_fullscreen(True)
+else:
+    print("INFO:Stage requests", GSTAGE_WIDTH, GSTAGE_HEIGHT)
+    stage.set_size(GSTAGE_WIDTH, GSTAGE_HEIGHT)
+print(stage.get_size())
 gGUI['ROOT'] = stage
 
 
 # setup ui
+
 def setup_ui(sFile):
     '''
     Instantiate the specified gui elements.
