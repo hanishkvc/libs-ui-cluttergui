@@ -8,6 +8,8 @@ import pygame
 #s=pygame.display.set_mode((640,480))
 s128=pygame.Surface((128,128))
 s64=pygame.Surface((64,64))
+s736x64=pygame.Surface((736,64))
+s600x32=pygame.Surface((600,32))
 
 
 # Get a font
@@ -46,4 +48,11 @@ controls = [ "Play", "Pause", "Next", "Prev", "Vol+", "Vol-", "Bri+", "Bri-", "B
 for control in controls:
     fileName = control + ".png"
     gen_image(s64, control, fileName)
+
+aitems = [ "aitem1", "aitem2", "aitem3", "aitem4", "aitem5", "aitem6", "aitem7", "aitem8", "aitem9" ]
+for aitem in aitems:
+    fileName = aitem + ".png"
+    gen_image(s600x32, aitem, fileName)
+
+gen_image(s736x64, "Album1", "album1.png")
 
