@@ -5,9 +5,9 @@ LISTBOX_BEGIN
     T:PID ROOT
     I:X  32
     I:Y  32
-    I:W  736
+    I:W  850
     I:H  64
-    I:IW 736
+    I:IW 850
     I:IH 64
     I:PAD 2
     S:ORIENTATION VERTICAL
