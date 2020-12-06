@@ -1,9 +1,9 @@
 gui LBTITLE
-item Item11.png XY:dummy
+item Item11.txt XY:dummy
 gui LBSONGS
 item Item11.png cd:test/contentbrowser/Item11.mp4
 item Item12.png cd:test/contentbrowser/Item12.mp4
-item Item13.png cd:test/contentbrowser/Item13.mp4
+item Item13.txt cd:test/contentbrowser/Item13.mp4
 item Item14.png cd:test/contentbrowser/Item11.mp4
 item Item15.png cd:test/contentbrowser/Item12.mp4
 item Item16.png cd:test/contentbrowser/Item13.mp4

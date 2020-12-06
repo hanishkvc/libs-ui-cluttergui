@@ -273,7 +273,12 @@ def load_contentmeta(sFile):
             la = l.split(' ')
             img = la[1]
             target = la[2]
-            btn = cg.create_imagebutton(img, cg.IGNORE, cg.IGNORE, gGUIData[aID]['IW'], gGUIData[aID]['IH'], "{}.{}".format(aID, len(lData)))
+            if img.endswith(".txt"):
+                txt = img
+                img = None
+            else:
+                txt = None
+            btn = cg.create_button(cg.IGNORE, cg.IGNORE, gGUIData[aID]['IW'], gGUIData[aID]['IH'], imageFile=img, text=txt, iD="{}.{}".format(aID, len(lData)))
             cg.listbox_append_child(gGUI[aID], gGUIData[aID]['IW'], gGUIData[aID]['IH'], btn, gGUIData[aID]['ITEMHANDLER'])
             lData.append(target)
         elif l.upper().startswith("BACKGROUND"):
