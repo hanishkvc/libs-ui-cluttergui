@@ -7,7 +7,7 @@ LISTBOX_BEGIN
     I:Y  32
     I:W  736
     I:H  64
-    I:IW 550
+    I:IW 736
     I:IH 64
     I:PAD 2
     S:ORIENTATION VERTICAL

@@ -187,6 +187,7 @@ def setup_ui(sFile):
     '''
     if DEBUG_UIT:
         uitS = pygame.Surface(stage.get_size())
+        dPos = {'ROOT': [0,0]}
     f = open(sFile)
     for l in f:
         if l[0] == '#':
@@ -222,8 +223,10 @@ def setup_ui(sFile):
         elif l == "LISTBOX_END":
             print(tLB)
             if DEBUG_UIT:
-                pygame.draw.rect(uitS, (100,0,0), (tLB['X'],tLB['Y'], tLB['W'],tLB['H']), 4)
-                pygame.draw.rect(uitS, (0,0,100), (tLB['X'],tLB['Y'], tLB['IW'],tLB['IH']), 2)
+                x,y = dPos[tLB['PID']]
+                dPos[tLB['ID']] = [ x + tLB['X'], y + tLB['Y'] ]
+                pygame.draw.rect(uitS, (100,0,0), (x+tLB['X'],y+tLB['Y'], tLB['W'],tLB['H']), 4)
+                pygame.draw.rect(uitS, (0,0,100), (x+tLB['X'],y+tLB['Y'], tLB['IW'],tLB['IH']), 2)
             if tLB['ID'] in gGUI:
                 actor = gGUI[tLB['ID']]
                 actor.destroy_all_children()
