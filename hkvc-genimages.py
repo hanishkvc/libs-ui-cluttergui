@@ -43,9 +43,13 @@ for g in groups:
         text = "{}{}".format(g, i)
         fileName = "{}.png".format(text)
         if g == "Cat":
-            gen_image(s128a, text, fileName)
+            gen_image(s128a, text, fileName, fillColor=(200,128,128,128))
         else:
-            gen_image(s128, text, fileName)
+            if i > (groupMemberCnt/2):
+                fillColor = (128,200,128,200)
+            else:
+                fillColor = (128,128,128,200)
+            gen_image(s128a, text, fileName, fillColor)
 
 # Media Navigation control
 
