@@ -71,6 +71,17 @@ def handle_lb_itemclick(actor, event):
     return Clutter.EVENT_STOP
 
 
+def handle_audiocontrol(actor, event):
+    aID = actor.get_id()
+    cg.dprint(cg.GDEBUG, actor, event, aID)
+    lb,item = aID.split('.')
+    target = gTarget[lb][int(item)]
+    print("Handle:{}->{}:{}".format(lb, item, target))
+    if target.upper() == "AC:BACK":
+        load_screen('main')
+    return Clutter.EVENT_STOP
+
+
 #### Load Things
 
 
@@ -116,6 +127,17 @@ CAT_BEGIN
 CAT_END
 
 NOTE: Currently the concept of TAG is not used in Content metadata files
+
+Simple Content metadata file
+
+BACKGROUND background_image
+GUI "gui_id"
+ITEM "image_file" "CM:metadata_file"|"CD:content_file"|"AC:action"
+...
+GUI "gui_id"
+ITEM "image_file" "CM:metadata_file"|"CD:content_file"|"AC:action"
+ITEM "image_file" "CM:metadata_file"|"CD:content_file"|"AC:action"
+...
 
 '''
 
@@ -184,9 +206,10 @@ def setup_ui(sFile):
             val = l.split(' ',1)[1].strip()
             if val == "NONE":
                 tLB[tag] = None
-            else:
+            elif val == "AUDIOCONTROL":
+                tLB[tag] = handle_audiocontrol
+            else: # Corresponds to STANDARD
                 tLB[tag] = handle_lb_itemclick
-
         elif l == "LISTBOX_END":
             print(tLB)
             if tLB['ID'] in gGUI:
