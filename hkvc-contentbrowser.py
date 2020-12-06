@@ -65,7 +65,7 @@ def handle_lb_itemclick(actor, event):
     aID = actor.get_id()
     cg.dprint(cg.GDEBUG+1, actor, event, aID)
     lb,item = aID.split('.')
-    target = gData[lb][int(item)]
+    target = gTarget[lb][int(item)]
     print("Handle:{}->{}:{}".format(lb, item, target))
     handle_target(target)
     return Clutter.EVENT_STOP
@@ -206,8 +206,16 @@ def setup_ui(sFile):
 
 ## Data
 
+'''
+gTarget contains target info has to what to do when a item is clicked
+any where in the screen.
 
-gData = {}
+It is loaded from content meta files.
+
+It could specify a content file to play or a content meta file to
+load or some action to take or ...
+'''
+gTarget = {}
 
 
 def load_contentmeta(sFile):
@@ -231,7 +239,7 @@ def load_contentmeta(sFile):
         l = l.strip()
         if l.upper().startswith("GUI"):
             if aID != None:
-                gData[aID] = lData
+                gTarget[aID] = lData
             aID = l.split(' ',1)[1].strip()
             gGUI[aID].remove_all_children()
             lData = []
@@ -246,8 +254,8 @@ def load_contentmeta(sFile):
             img = l.split(' ')[1]
             load_background(gGUI['ROOT'], img)
     if aID != None:
-        gData[aID] = lData
-    print(sFile, gData)
+        gTarget[aID] = lData
+    print(sFile, gTarget)
 
 
 ## Screens
@@ -262,7 +270,7 @@ def _load_screen(sUIFile, sCMFile, sTarget=None):
     global gGUI
     # Clear current screen if any
     gGUI['ROOT'].remove_all_children()
-    gData.clear()
+    gTarget.clear()
     dGUI = {}
     dGUI['ROOT'] = gGUI['ROOT']
     gGUI = dGUI
@@ -271,7 +279,7 @@ def _load_screen(sUIFile, sCMFile, sTarget=None):
     cg.dprint(cg.GDEBUG, stage.get_children())
     load_contentmeta(sCMFile)
     if sTarget != None:
-        target = gData[sTarget][0]
+        target = gTarget[sTarget][0]
         handle_target(target)
 
 
