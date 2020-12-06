@@ -40,6 +40,8 @@ def handle_key_press(actor, event):
         if (event.keyval == Clutter.KEY_A):
             cg.listbox_select(gGUI['LBCAT'], 1, cg.SelectOffsetType.CUR)
             cg.listbox_select(gGUI['LBG1'], 1, cg.SelectOffsetType.CUR, colorizeEffect=colorizeEffect1)
+        elif (event.keyval == Clutter.KEY_X):
+            load_screen('audio')
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
             Clutter.main_quit()
@@ -239,7 +241,7 @@ def load_contentmeta(sFile):
 
 ## Screens
 
-def load_screen(sUIFile, sCMFile, sTarget=None):
+def _load_screen(sUIFile, sCMFile, sTarget=None):
     '''
     Represents a Unique Screen in the App.
     sUIFile: provides the UI template for the screen
@@ -259,6 +261,10 @@ def load_screen(sUIFile, sCMFile, sTarget=None):
     if sTarget != None:
         target = gData[sTarget][0]
         handle_target(target)
+
+
+def load_screen(screen):
+    _load_screen(gScreen[screen][0], gScreen[screen][1], gScreen[screen][2])
 
 
 gScreen = {}
@@ -283,7 +289,7 @@ def init_screens(dScreen, basePath):
 
 # Get ready to start
 init_screens(gScreen, sys.argv[1])
-load_screen(gScreen['main'][0], gScreen['main'][1], gScreen['main'][2])
+load_screen('main')
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
