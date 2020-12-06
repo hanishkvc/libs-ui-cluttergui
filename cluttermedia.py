@@ -13,6 +13,7 @@ def init():
 gPlayer = None
 def play_audio(sFile):
     global gPlayer
+    stop()
     print("INFO:CM:Play", sFile)
     gPlayer = ClutterGst.Playback()
     gPlayer.set_filename(sFile)
@@ -21,6 +22,8 @@ def play_audio(sFile):
 
 
 def stop():
-    gPlayer.set_playing(False)
+    if gPlayer != None:
+        print("INFO:CM:Stop in case")
+        gPlayer.set_playing(False)
 
 
