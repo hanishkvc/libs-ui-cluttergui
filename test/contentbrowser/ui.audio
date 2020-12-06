@@ -3,9 +3,9 @@
 LISTBOX_BEGIN
     T:ID lbCtrl
     T:PID ROOT
-    I:X  0
+    I:X  100
     I:Y  500
-    I:W  800
+    I:W  600
     I:H  100
     I:IW 64
     I:IH 64

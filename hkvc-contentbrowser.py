@@ -126,10 +126,14 @@ gGUIData = {}
 
 
 # Create the stage
+def load_background(stage, backgroundImageFile):
+    stageBgndImage = cg.create_image(backgroundImageFile)
+    stage.set_content(stageBgndImage)
+
+
 stage = Clutter.Stage()
 stage.set_background_color(Clutter.color_from_string("Black")[1])
-stageBgndImage = cg.create_image("Background.png")
-stage.set_content(stageBgndImage)
+load_background(stage, 'Background.png')
 stage.set_size(800,600)
 stage.set_title("Content Browser")
 gGUI['ROOT'] = stage
@@ -212,6 +216,8 @@ def load_contentmeta(sFile):
     GUI tells the logic to clear any existing entries/children in that GUI element.
     ANd to add any ITEM entries that follow it.
 
+    BACKGROUND can be used to set the background image of the main screen/window/stage.
+
     A line begining with # is ignored, provided it is the 1st char in the line.
     If # occurs after space char or so, then the line wont be ignored.
     '''
@@ -234,6 +240,9 @@ def load_contentmeta(sFile):
             btn = cg.create_imagebutton(img, cg.IGNORE, cg.IGNORE, gGUIData[aID]['IW'], gGUIData[aID]['IH'], "{}.{}".format(aID, len(lData)))
             cg.listbox_append_child(gGUI[aID], gGUIData[aID]['IW'], gGUIData[aID]['IH'], btn, gGUIData[aID]['ITEMHANDLER'])
             lData.append(target)
+        elif l.upper().startswith("BACKGROUND"):
+            img = l.split(' ')[1]
+            load_background(gGUI['ROOT'], img)
     if aID != None:
         gData[aID] = lData
     print(sFile, gData)

@@ -1,3 +1,4 @@
+background Background.png
 gui LBCAT
 item Cat1.png cm:test/contentbrowser/cm.cat1
 item Cat2.png cm:test/contentbrowser/cm.cat2

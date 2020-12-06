@@ -1,3 +1,4 @@
+background BackgroundAudio.png
 gui LBCTRL
 item Play.png ac:Play
 item Pause.png ac:Pause
