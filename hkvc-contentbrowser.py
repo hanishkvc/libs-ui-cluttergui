@@ -41,6 +41,8 @@ def handle_key_press(actor, event):
             cg.listbox_select(gGUI['LBCAT'], 1, cg.SelectOffsetType.CUR)
             cg.listbox_select(gGUI['LBG1'], 1, cg.SelectOffsetType.CUR, colorizeEffect=colorizeEffect1)
         elif (event.keyval == Clutter.KEY_X):
+            load_screen('main')
+        elif (event.keyval == Clutter.KEY_Y):
             load_screen('audio')
         elif (event.keyval == Clutter.KEY_Q):
             print("INFO: Bowing down gracefully")
