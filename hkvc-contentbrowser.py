@@ -10,6 +10,7 @@ import gi
 gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 import cluttergui as cg
+import cluttermedia as cm
 
 
 GAPP_FULLSCREEN=False
@@ -29,6 +30,7 @@ if len(sys.argv) != 2:
 
 
 Clutter.init()
+cm.init()
 
 # some required things
 colorizeEffect1 = Clutter.ColorizeEffect()
@@ -70,6 +72,9 @@ def handle_target(target):
     if targetType.upper() == "CMA":
         load_screen('audio')
         load_contentmeta(targetLink)
+    if targetType.upper() == "CD":
+        if targetLink.upper().endswith(".MP3"):
+            cm.play_audio(targetLink)
 
 
 def handle_lb_itemclick(actor, event):
