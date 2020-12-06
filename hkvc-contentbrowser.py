@@ -11,6 +11,10 @@ gi.require_version('Clutter', '1.0')
 from gi.repository import Clutter
 import cluttergui as cg
 
+DEBUG_UIT=True
+if DEBUG_UIT:
+    import pygame
+
 
 if len(sys.argv) != 2:
     print("Usage: {} <path/to/ui_config_files>".format(sys.argv[0]))
@@ -181,6 +185,8 @@ def setup_ui(sFile):
     A line begining with # is ignored, provided it is the 1st char in the line.
     If # occurs after space char or so, then the line wont be ignored.
     '''
+    if DEBUG_UIT:
+        uitS = pygame.Surface(stage.get_size())
     f = open(sFile)
     for l in f:
         if l[0] == '#':
@@ -215,6 +221,9 @@ def setup_ui(sFile):
                 tLB[tag] = handle_lb_itemclick
         elif l == "LISTBOX_END":
             print(tLB)
+            if DEBUG_UIT:
+                pygame.draw.rect(uitS, (100,0,0), (tLB['X'],tLB['Y'], tLB['W'],tLB['H']), 4)
+                pygame.draw.rect(uitS, (0,0,100), (tLB['X'],tLB['Y'], tLB['IW'],tLB['IH']), 2)
             if tLB['ID'] in gGUI:
                 actor = gGUI[tLB['ID']]
                 actor.destroy_all_children()
@@ -228,6 +237,8 @@ def setup_ui(sFile):
             gGUI[tLB['ID']] = lb
             gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'], 'ITEMHANDLER': tLB['ITEMHANDLER'] }
     f.close()
+    if DEBUG_UIT:
+        pygame.image.save(uitS, sFile+".png")
 
 
 ## Data
