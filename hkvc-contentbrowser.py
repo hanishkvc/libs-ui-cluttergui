@@ -335,7 +335,8 @@ def init_screens(dScreen, basePath):
 
 # Get ready to start
 init_screens(gScreen, sys.argv[1])
-load_screen('main')
+load_screen('audio')
+load_contentmeta('test/contentbrowser/AItem11.cm')
 stage.connect("destroy", handle_destroy)
 stage.connect("key-press-event", handle_key_press)
 stage.show()
