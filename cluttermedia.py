@@ -61,3 +61,26 @@ def play_video(sFile, ui):
     gPlayer.set_playing(True)
     gPlayType = 'V'
 
+
+def volup():
+    if (gPlayer != None) and (gPlayType != '?'):
+        vol = gPlayer.get_audio_volume()
+        vol += 0.1
+        if (vol > 1.0):
+            vol = 1.0
+        gPlayer.set_audio_volume(vol)
+        print("INFO:volup:", vol)
+
+
+def voldown():
+    if (gPlayer != None) and (gPlayType != '?'):
+        vol = gPlayer.get_audio_volume()
+        vol -= 0.1
+        if (vol < 0):
+            vol = 0
+        gPlayer.set_audio_volume(vol)
+        print("INFO:voldown:", vol)
+
+
+
+

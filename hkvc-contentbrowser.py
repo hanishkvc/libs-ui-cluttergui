@@ -104,6 +104,10 @@ def handle_audiocontrol(actor, event):
         cm.pause()
     elif target.upper() == "AC:PLAY":
         cm.unpause()
+    elif target.upper() == "AC:VOLPLUS":
+        cm.volup()
+    elif target.upper() == "AC:VOLMIN":
+        cm.voldown()
     return Clutter.EVENT_STOP
 
 
