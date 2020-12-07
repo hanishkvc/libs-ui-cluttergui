@@ -37,6 +37,7 @@ def play_video(sFile, ui):
     cgstContent = ClutterGst.Aspectratio()
     cgstContent.set_player(gPlayer)
     ui.set_content(cgstContent)
+    #ui.show()
     # default content gravity is resize fill, so things should be fine.
     # need to check, if I require to set the scaling filters explicitly or default is good enough.
     gPlayer.set_playing(True)

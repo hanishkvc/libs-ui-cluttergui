@@ -1,0 +1,11 @@
+background BackgroundAudio.png
+gui LBCTRL
+item PlayA.png ac:Play
+item Pause.png ac:Pause
+item Next.png ac:Next
+item Prev.png ac:Prev
+item Vol+.png ac:VolPlus
+item Vol-.png ac:VolMin
+item Bri+.png ac:BrightPlus
+item Bri-.png ac:BrightMin
+item Back.png ac:Back

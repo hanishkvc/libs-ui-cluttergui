@@ -75,6 +75,9 @@ def handle_target(target):
     if targetType.upper() == "CD":
         if targetLink.upper().endswith(".MP3"):
             cm.play_audio(targetLink)
+        elif targetLink.upper().endswith(".MP4"):
+            load_screen('video')
+            cm.play_video(targetLink, gGUI['ACVIEW'])
 
 
 def handle_lb_itemclick(actor, event):
@@ -367,6 +370,7 @@ def _load_screen(sUIFile, sCMFile, sTarget=None):
 
 def load_screen(screen):
     _load_screen(gScreen[screen][0], gScreen[screen][1], gScreen[screen][2])
+    print(gGUI)
 
 
 gScreen = {}
@@ -374,18 +378,19 @@ def init_screens(dScreen, basePath):
     '''
     The specified path should contain the ui template and corresponding controls related
     contentmeta files for
-        main, audio
+        main, audio, video
     The main is expected to have listbox named LBCAT, whose 0th entry will be triggered,
     when the main screen is displayed.
     '''
     screens = [
         [ 'main', 'LBCAT' ],
+        [ 'video', None ],
         [ 'audio', None ] ]
     for screen in screens:
         ui = "{}/ui.{}".format(basePath, screen[0])
-        cm = "{}/cm.{}".format(basePath, screen[0])
+        meta = "{}/cm.{}".format(basePath, screen[0])
         target = screen[1]
-        l = [ ui, cm, target ]
+        l = [ ui, meta, target ]
         dScreen[screen[0]] = l
 
 

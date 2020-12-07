@@ -1,5 +1,5 @@
 gui LBG1
-item Item1.png cd:test/contentbrowser/Item1.mp4
+item Item1.png cd:test/contentbrowser/test.mp4
 item Item2.png cd:test/contentbrowser/Item2.mp4
 item Item3.png cd:test/contentbrowser/Item3.mp4
 item Item4.png cd:test/contentbrowser/Item1.mp4
