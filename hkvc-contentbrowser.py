@@ -97,6 +97,8 @@ def handle_audiocontrol(actor, event):
     target = gTarget[lb][int(item)]
     print("Handle:{}->{}:{}".format(lb, item, target))
     if target.upper() == "AC:BACK":
+        if cm.gPlayType == 'V':
+            cm.stop()
         load_screen('main')
     return Clutter.EVENT_STOP
 
