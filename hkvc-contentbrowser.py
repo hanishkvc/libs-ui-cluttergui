@@ -262,6 +262,10 @@ def setup_ui(sFile):
             gGUIData[tLB['ID']] = { 'IW': tLB['IW'], 'IH': tLB['IH'], 'ITEMHANDLER': tLB['ITEMHANDLER'] }
         elif l == "ACTOR_END":
             print(tLB)
+            if DEBUG_UIT:
+                x,y = dPos[tLB['PID']]
+                dPos[tLB['ID']] = [ x + tLB['X'], y + tLB['Y'] ]
+                pygame.draw.rect(uitS, (0,100,0), (x+tLB['X'],y+tLB['Y'], tLB['W'],tLB['H']), 4)
             a = Clutter.Actor()
             a.set_position(tLB['X'], tLB['Y'])
             a.set_size(tLB['W'], tLB['H'])
