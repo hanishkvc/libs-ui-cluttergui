@@ -17,9 +17,9 @@ LISTBOX_END
 ACTOR_BEGIN
     T:ID acView
     T:PID ROOT
-    I:X  100
+    I:X  32
     I:Y  100
-    I:W  600
+    I:W  736
     I:H  400
     S:ITEMHANDLER VIDEOVIEW
 ACTOR_END
@@ -27,7 +27,7 @@ ACTOR_END
 LISTBOX_BEGIN
     T:ID lbCtrl
     T:PID ROOT
-    I:X  50
+    I:X  80
     I:Y  500
     I:W  700
     I:H  100
