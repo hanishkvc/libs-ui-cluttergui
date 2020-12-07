@@ -100,6 +100,10 @@ def handle_audiocontrol(actor, event):
         if cm.gPlayType == 'V':
             cm.stop()
         load_screen('main')
+    elif target.upper() == "AC:PAUSE":
+        cm.pause()
+    elif target.upper() == "AC:PLAY":
+        cm.unpause()
     return Clutter.EVENT_STOP
 
 

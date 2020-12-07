@@ -24,10 +24,22 @@ def play_audio(sFile):
     gPlayType = 'A'
 
 
+def pause():
+    if (gPlayer != None) and (gPlayType != '?'):
+        gPlayer.set_playing(False)
+
+
+def unpause():
+    if (gPlayer != None) and (gPlayType != '?'):
+        gPlayer.set_playing(True)
+
+
 def stop(cleanup=False):
+    global gPlayType
     if gPlayer != None:
         print("INFO:CM:Stop in case")
         gPlayer.set_playing(False)
+        gPlayType = '?'
         if cleanup:
             pass
 
