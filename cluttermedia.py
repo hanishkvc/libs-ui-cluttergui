@@ -12,6 +12,7 @@ def init():
 
 gPlayer = None
 gPlayType = '?'
+gVideoContentUI = None
 def play_audio(sFile):
     global gPlayer, gPlayType
     stop()
@@ -23,10 +24,12 @@ def play_audio(sFile):
     gPlayType = 'A'
 
 
-def stop():
+def stop(cleanup=False):
     if gPlayer != None:
         print("INFO:CM:Stop in case")
         gPlayer.set_playing(False)
+        if cleanup:
+            pass
 
 
 def play_video(sFile, ui):
@@ -39,6 +42,7 @@ def play_video(sFile, ui):
     cgstContent = ClutterGst.Aspectratio()
     cgstContent.set_player(gPlayer)
     ui.set_content(cgstContent)
+    gVideoContentUI = cgstContent
     #ui.show()
     # default content gravity is resize fill, so things should be fine.
     # need to check, if I require to set the scaling filters explicitly or default is good enough.
